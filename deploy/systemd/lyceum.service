@@ -1,0 +1,33 @@
+[Unit]
+Description=Academic Lyceum — Next.js website
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=lyceum
+Group=lyceum
+WorkingDirectory=/opt/lyceum
+EnvironmentFile=/opt/lyceum/.env
+Environment=NODE_ENV=production
+Environment=PORT=3000
+ExecStart=/usr/bin/node /opt/lyceum/.next/standalone/server.js
+Restart=always
+RestartSec=5
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/lyceum/public/uploads /opt/lyceum/.next /var/log/lyceum
+
+# Resource limits
+LimitNOFILE=65535
+
+# Logging
+StandardOutput=append:/var/log/lyceum/app.log
+StandardError=append:/var/log/lyceum/error.log
+
+[Install]
+WantedBy=multi-user.target

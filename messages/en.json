@@ -1,0 +1,237 @@
+{
+  "metadata": {
+    "siteName": "International Finance",
+    "siteFullName": "Academic Lyceum under Tashkent State University of Economics «International Finance»",
+    "tagline": "Prestigious academic education in economics and foreign languages",
+    "description": "Official website of the Academic Lyceum under TSUE «International Finance». Preparation for admission to leading universities in economics and foreign languages."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "administration": "Administration",
+    "teachers": "Teachers",
+    "directions": "Programs",
+    "achievements": "Achievements",
+    "news": "News",
+    "gallery": "Gallery",
+    "whyUs": "Why Us",
+    "community": "Community",
+    "admissions": "Admissions",
+    "contacts": "Contacts",
+    "more": "More",
+    "menu": "Menu"
+  },
+  "common": {
+    "learnMore": "Learn more",
+    "readMore": "Read more",
+    "allNews": "All news",
+    "allAchievements": "All achievements",
+    "allAlbums": "All albums",
+    "viewAll": "View all",
+    "contactUs": "Contact us",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "noData": "Information will be added",
+    "placeholder": "[Content will be added by administration]",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "schedule": "Working hours",
+    "workingHours": "Working hours",
+    "language": "Language",
+    "menu": "Menu",
+    "closeMenu": "Close menu",
+    "openMenu": "Open menu",
+    "search": "Search",
+    "share": "Share",
+    "publishedOn": "Published on",
+    "category": "Category",
+    "date": "Date",
+    "photosCount": "photos",
+    "itemsCount": "items",
+    "viewOnMap": "View on map",
+    "website": "Website",
+    "visitWebsite": "Visit website"
+  },
+  "hero": {
+    "badge": "Academic Lyceum under TSUE",
+    "title": "International Finance",
+    "subtitle": "Shaping a new generation of professionals in economics, finance, and international relations",
+    "secondaryCta": "About us",
+    "stats": {
+      "years": "years of experience",
+      "students": "students",
+      "teachers": "teachers",
+      "graduates": "graduates"
+    }
+  },
+  "home": {
+    "whyUsTitle": "Why choose us",
+    "whyUsSubtitle": "Benefits of studying at our lyceum",
+    "whyUsViewAll": "Learn more",
+    "partnersTitle": "Community",
+    "partnersSubtitle": "Partners and friends of the lyceum",
+    "partnersViewAll": "All partners",
+    "latestNews": "Latest news",
+    "latestNewsSubtitle": "Stay informed about our lyceum events",
+    "directionsTitle": "Programs of study",
+    "directionsSubtitle": "Choose your path to academic success",
+    "aboutTitle": "About our lyceum",
+    "aboutSubtitle": "A tradition of academic excellence",
+    "achievementsTitle": "Our achievements",
+    "achievementsSubtitle": "Results we are proud of",
+    "teachersTitle": "Teachers",
+    "teachersSubtitle": "Experienced educators and scholars with international backgrounds",
+    "galleryTitle": "Lyceum life",
+    "gallerySubtitle": "Moments from our academic life",
+    "admissionsTitle": "Admissions",
+    "admissionsSubtitle": "Admission through the State Testing Center",
+    "admissionsCta": "Learn more",
+    "contactsTitle": "Contact us",
+    "contactsSubtitle": "We are always happy to answer your questions"
+  },
+  "whyUs": {
+    "pageTitle": "Why choose us",
+    "pageSubtitle": "Benefits of studying at our lyceum"
+  },
+  "community": {
+    "pageTitle": "Community",
+    "pageSubtitle": "Partners and friends of the lyceum"
+  },
+  "about": {
+    "pageTitle": "About the Lyceum",
+    "pageSubtitle": "History, values and academic environment",
+    "sections": {
+      "history": "History",
+      "general": "General information",
+      "mission": "Mission and goals",
+      "features": "Educational features",
+      "advantages": "Advantages",
+      "environment": "Learning environment"
+    },
+    "placeholder": "Detailed information about the lyceum will be added by administration"
+  },
+  "administration": {
+    "pageTitle": "Administration",
+    "pageSubtitle": "Leadership and team of the lyceum",
+    "placeholder": "Information about leadership will be added"
+  },
+  "teachers": {
+    "pageTitle": "Teachers",
+    "pageSubtitle": "Our educators are professionals in their field",
+    "filter": {
+      "all": "All",
+      "economics": "Economics",
+      "languages": "Foreign languages",
+      "mathematics": "Mathematics",
+      "naturalSciences": "Natural sciences",
+      "humanities": "Humanities",
+      "other": "Other"
+    },
+    "placeholder": "List of teachers will be added"
+  },
+  "directions": {
+    "pageTitle": "Programs of study",
+    "pageSubtitle": "Two tracks for your academic future",
+    "economics": {
+      "title": "Economics",
+      "shortTitle": "Economics track",
+      "tagline": "Deep dive into mathematics and English for future economists",
+      "description": "Description of the economics track will be added by administration",
+      "subjectsTitle": "Core subjects",
+      "subjects": {
+        "math": "Mathematics",
+        "english": "English"
+      }
+    },
+    "languages": {
+      "title": "Foreign Languages",
+      "shortTitle": "Languages track",
+      "tagline": "In-depth study of Russian and English for linguists and international specialists",
+      "description": "Description of the languages track will be added by administration",
+      "subjectsTitle": "Core subjects",
+      "subjects": {
+        "russian": "Russian",
+        "english": "English"
+      }
+    }
+  },
+  "achievements": {
+    "pageTitle": "Achievements",
+    "pageSubtitle": "Olympiads, contests, sports and academic victories",
+    "categories": {
+      "all": "All",
+      "olympiad": "Olympiads",
+      "certificate": "Certificates",
+      "competition": "Competitions",
+      "sport": "Sport",
+      "other": "Other"
+    },
+    "placeholder": "Achievements will be added"
+  },
+  "news": {
+    "pageTitle": "News",
+    "pageSubtitle": "Current events and announcements of the lyceum",
+    "latest": "Latest news",
+    "recent": "Recent news",
+    "backToList": "All news",
+    "placeholder": "News will be added",
+    "empty": "No published news yet"
+  },
+  "gallery": {
+    "pageTitle": "Gallery",
+    "pageSubtitle": "Photos from the lyceum life",
+    "album": "Album",
+    "backToAlbums": "All albums",
+    "placeholder": "Albums will be added"
+  },
+  "admissions": {
+    "pageTitle": "How to apply",
+    "pageSubtitle": "Admission is conducted through the State Testing Center (DTM)",
+    "intro": "Introduction",
+    "eligibility": "Who can apply",
+    "stages": "Main stages",
+    "process": "How admission works",
+    "system": "Registration system",
+    "documents": "Required documents",
+    "conditions": "Important conditions",
+    "deadlines": "Deadlines",
+    "links": "Useful links",
+    "recommendations": "Recommendations",
+    "ctaTitle": "Ready to start?",
+    "ctaText": "Follow official DTM announcements and our social media channels",
+    "placeholder": "Detailed admissions information will be added by administration",
+    "dtmLink": "Official DTM website",
+    "noApplicationForm": "Applications are submitted only through the DTM system. The lyceum does not accept applications directly through the website."
+  },
+  "contacts": {
+    "pageTitle": "Contacts",
+    "pageSubtitle": "Reach us in your preferred way",
+    "followUs": "Follow us",
+    "form": {
+      "title": "Get in touch",
+      "name": "Your name",
+      "message": "Message",
+      "submit": "Send",
+      "success": "Thank you! We will contact you soon.",
+      "error": "An error occurred. Please try again later."
+    }
+  },
+  "footer": {
+    "about": "Academic Lyceum under Tashkent State University of Economics. Preparation for admission to leading universities in economics and foreign languages.",
+    "navigation": "Navigation",
+    "contacts": "Contacts",
+    "social": "Social media",
+    "schedule": "Mon — Fri: 09:00 — 18:00",
+    "rights": "All rights reserved",
+    "developedBy": "Design and development"
+  },
+  "errors": {
+    "404": "Page not found",
+    "404text": "The requested page does not exist or has been removed",
+    "goHome": "Go home"
+  }
+}

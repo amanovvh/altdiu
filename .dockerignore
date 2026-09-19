@@ -1,0 +1,40 @@
+# Files ignored by `docker build` — keep image small and avoid leaking secrets.
+
+# Local env files (NEVER ship .env into an image)
+.env
+.env.*
+!.env.production.example
+
+# Build outputs
+.next
+out
+node_modules
+
+# Source control
+.git
+.gitignore
+
+# IDE / OS
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test / coverage
+coverage
+*.tsbuildinfo
+
+# Docker itself (avoids recursion)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Local uploads — they live in a volume, not in the image
+public/uploads
+
+# Backups / scripts used during deploy
+deploy/

@@ -1,0 +1,237 @@
+{
+  "metadata": {
+    "siteName": "International Finance",
+    "siteFullName": "Toshkent davlat iqtisodiyot universiteti huzuridagi «International Finance» akademik litseyi",
+    "tagline": "Iqtisodiyot va xorijiy tillar sohasida nufuzli akademik ta'lim",
+    "description": "TDIU «International Finance» akademik litseyining rasmiy sayti. Iqtisodiyot va xorijiy tillar yo'nalishlari bo'yicha yetakchi universitetlarga kirishga tayyorlov."
+  },
+  "nav": {
+    "home": "Bosh sahifa",
+    "about": "Litsey haqida",
+    "administration": "Ma'muriyat",
+    "teachers": "O'qituvchilar",
+    "directions": "Yo'nalishlar",
+    "achievements": "Yutuqlar",
+    "news": "Yangiliklar",
+    "gallery": "Galereya",
+    "whyUs": "Nega biz",
+    "community": "Hamjamiyat",
+    "admissions": "Qabul",
+    "contacts": "Bog'lanish",
+    "more": "Yana",
+    "menu": "Menyu"
+  },
+  "common": {
+    "learnMore": "Batafsil",
+    "readMore": "Davomini o'qish",
+    "allNews": "Barcha yangiliklar",
+    "allAchievements": "Barcha yutuqlar",
+    "allAlbums": "Barcha albomlar",
+    "viewAll": "Barchasini ko'rish",
+    "contactUs": "Biz bilan bog'laning",
+    "back": "Orqaga",
+    "next": "Keyingi",
+    "previous": "Oldingi",
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik yuz berdi",
+    "noData": "Ma'lumot qo'shiladi",
+    "placeholder": "[Kontent ma'muriyat tomonidan qo'shiladi]",
+    "phone": "Telefon",
+    "email": "Email",
+    "address": "Manzil",
+    "schedule": "Ish vaqti",
+    "workingHours": "Ish soatlari",
+    "language": "Til",
+    "menu": "Menyu",
+    "closeMenu": "Menyuni yopish",
+    "openMenu": "Menyuni ochish",
+    "search": "Qidirish",
+    "share": "Ulashish",
+    "publishedOn": "E'lon qilindi",
+    "category": "Kategoriya",
+    "date": "Sana",
+    "photosCount": "ta rasm",
+    "itemsCount": "ta material",
+    "viewOnMap": "Xaritada ko'rish",
+    "website": "Veb-sayt",
+    "visitWebsite": "Veb-saytga o'tish"
+  },
+  "hero": {
+    "badge": "TDIU huzuridagi akademik litsey",
+    "title": "International Finance",
+    "subtitle": "Iqtisodiyot, moliya va xalqaro munosabatlar sohasida yangi avlod mutaxassislarini tayyorlaymiz",
+    "secondaryCta": "Litsey haqida",
+    "stats": {
+      "years": "yil tajriba",
+      "students": "talaba",
+      "teachers": "o'qituvchi",
+      "graduates": "bitiruvchi"
+    }
+  },
+  "home": {
+    "whyUsTitle": "Nega aynan bizni tanlashadi",
+    "whyUsSubtitle": "Litseyda ta'lim olishning afzalliklari",
+    "whyUsViewAll": "Batafsil",
+    "partnersTitle": "Hamjamiyat",
+    "partnersSubtitle": "Litseyning hamkorlari va do'stlari",
+    "partnersViewAll": "Barcha hamkorlar",
+    "latestNews": "So'nggi yangiliklar",
+    "latestNewsSubtitle": "Litseyimiz voqealaridan xabardor bo'ling",
+    "directionsTitle": "O'quv yo'nalishlari",
+    "directionsSubtitle": "Akademik muvaffaqiyat uchun o'z yo'lingizni tanlang",
+    "aboutTitle": "Litseyimiz haqida",
+    "aboutSubtitle": "Akademik mukammallik an'analari",
+    "achievementsTitle": "Yutuqlarimiz",
+    "achievementsSubtitle": "Biz faxrlanadigan natijalar",
+    "teachersTitle": "O'qituvchilar",
+    "teachersSubtitle": "Xalqaro tajribaga ega tajribali pedagoglar va olimlar",
+    "galleryTitle": "Litsey hayoti",
+    "gallerySubtitle": "Akademik hayotimizdan lahzalar",
+    "admissionsTitle": "Qabul",
+    "admissionsSubtitle": "DTM orqali qabul qilish",
+    "admissionsCta": "Batafsil ma'lumot",
+    "contactsTitle": "Biz bilan bog'laning",
+    "contactsSubtitle": "Savollaringizga javob berishdan doimo mamnunmiz"
+  },
+  "whyUs": {
+    "pageTitle": "Nega aynan bizni tanlashadi",
+    "pageSubtitle": "Litseyda ta'lim olishning afzalliklari"
+  },
+  "community": {
+    "pageTitle": "Hamjamiyat",
+    "pageSubtitle": "Litseyning hamkorlari va do'stlari"
+  },
+  "about": {
+    "pageTitle": "Litsey haqida",
+    "pageSubtitle": "Tarix, qadriyatlar va akademik muhit",
+    "sections": {
+      "history": "Tarix",
+      "general": "Umumiy ma'lumot",
+      "mission": "Maqsad va vazifalar",
+      "features": "Ta'lim xususiyatlari",
+      "advantages": "Afzalliklar",
+      "environment": "Ta'lim muhiti"
+    },
+    "placeholder": "Litsey haqida batafsil ma'lumot ma'muriyat tomonidan qo'shiladi"
+  },
+  "administration": {
+    "pageTitle": "Ma'muriyat",
+    "pageSubtitle": "Litsey rahbariyati va jamoasi",
+    "placeholder": "Rahbariyat haqida ma'lumot qo'shiladi"
+  },
+  "teachers": {
+    "pageTitle": "O'qituvchilar",
+    "pageSubtitle": "Pedagoglarimiz — o'z ishi professionallari",
+    "filter": {
+      "all": "Barchasi",
+      "economics": "Iqtisodiyot",
+      "languages": "Xorijiy tillar",
+      "mathematics": "Matematika",
+      "naturalSciences": "Tabiiy fanlar",
+      "humanities": "Gumanitar fanlar",
+      "other": "Boshqa"
+    },
+    "placeholder": "O'qituvchilar ro'yxati qo'shiladi"
+  },
+  "directions": {
+    "pageTitle": "O'quv yo'nalishlari",
+    "pageSubtitle": "Akademik kelajagingiz uchun ikki yo'nalish",
+    "economics": {
+      "title": "Iqtisodiyot",
+      "shortTitle": "Iqtisodiy yo'nalish",
+      "tagline": "Kelajak iqtisodchilari uchun matematika va ingliz tiliga chuqur kirib borish",
+      "description": "Iqtisodiy yo'nalish tavsifi ma'muriyat tomonidan qo'shiladi",
+      "subjectsTitle": "Asosiy fanlar",
+      "subjects": {
+        "math": "Matematika",
+        "english": "Ingliz tili"
+      }
+    },
+    "languages": {
+      "title": "Xorijiy tillar",
+      "shortTitle": "Til yo'nalishi",
+      "tagline": "Lingvistlar va xalqaro mutaxassislar uchun rus va ingliz tillarini chuqur o'rganish",
+      "description": "Til yo'nalishi tavsifi ma'muriyat tomonidan qo'shiladi",
+      "subjectsTitle": "Asosiy fanlar",
+      "subjects": {
+        "russian": "Rus tili",
+        "english": "Ingliz tili"
+      }
+    }
+  },
+  "achievements": {
+    "pageTitle": "Yutuqlar",
+    "pageSubtitle": "Olimpiadalar, tanlovlar, sport va akademik g'alabalar",
+    "categories": {
+      "all": "Barchasi",
+      "olympiad": "Olimpiadalar",
+      "certificate": "Sertifikatlar",
+      "competition": "Tanlovlar",
+      "sport": "Sport",
+      "other": "Boshqa"
+    },
+    "placeholder": "Yutuqlar qo'shiladi"
+  },
+  "news": {
+    "pageTitle": "Yangiliklar",
+    "pageSubtitle": "Litseyning dolzarb voqealari va e'lonlari",
+    "latest": "Eng so'nggi yangilik",
+    "recent": "So'nggi yangiliklar",
+    "backToList": "Barcha yangiliklar",
+    "placeholder": "Yangiliklar qo'shiladi",
+    "empty": "Hozircha e'lon qilingan yangiliklar yo'q"
+  },
+  "gallery": {
+    "pageTitle": "Galereya",
+    "pageSubtitle": "Litsey hayotidan fotosuratlar",
+    "album": "Albom",
+    "backToAlbums": "Barcha albomlar",
+    "placeholder": "Albomlar qo'shiladi"
+  },
+  "admissions": {
+    "pageTitle": "Litseyga qanday qabul qilish",
+    "pageSubtitle": "Qabul DTM (Davlat test markazi) orqali amalga oshiriladi",
+    "intro": "Kirish",
+    "eligibility": "Kim hujjat topshirishi mumkin",
+    "stages": "Asosiy bosqichlar",
+    "process": "Qabul qanday amalga oshadi",
+    "system": "Ro'yxatga olish tizimi",
+    "documents": "Kerakli hujjatlar",
+    "conditions": "Muhim shartlar",
+    "deadlines": "Muddati",
+    "links": "Foydali havolalar",
+    "recommendations": "Tavsiyalar",
+    "ctaTitle": "Boshlashga tayyormisiz?",
+    "ctaText": "DTM rasmiy e'lonlari va bizning ijtimoiy tarmoqlarimizni kuzatib boring",
+    "placeholder": "Qabul haqida batafsil ma'lumot ma'muriyat tomonidan qo'shiladi",
+    "dtmLink": "DTM rasmiy sayti",
+    "noApplicationForm": "Arizani faqat DTM orqali topshirish mumkin. Litsey sayt orqali arizalarni qabul qilmaydi."
+  },
+  "contacts": {
+    "pageTitle": "Bog'lanish",
+    "pageSubtitle": "Sizga qulay usulda bog'laning",
+    "followUs": "Biz ijtimoiy tarmoqlarda",
+    "form": {
+      "title": "Biz bilan bog'laning",
+      "name": "Ismingiz",
+      "message": "Xabar",
+      "submit": "Yuborish",
+      "success": "Rahmat! Tez orada siz bilan bog'lanamiz.",
+      "error": "Xatolik yuz berdi. Keyinroq urinib ko'ring."
+    }
+  },
+  "footer": {
+    "about": "Toshkent davlat iqtisodiyot universiteti huzuridagi akademik litsey. Iqtisodiyot va xorijiy tillar yo'nalishlari bo'yicha yetakchi OTM larga kirishga tayyorlov.",
+    "navigation": "Navigatsiya",
+    "contacts": "Bog'lanish",
+    "social": "Ijtimoiy tarmoqlar",
+    "schedule": "Du — Pa: 09:00 — 18:00",
+    "rights": "Barcha huquqlar himoyalangan",
+    "developedBy": "Ishlab chiqish va qo'llab-quvvatlash"
+  },
+  "errors": {
+    "404": "Sahifa topilmadi",
+    "404text": "So'ralgan sahifa mavjud emas yoki o'chirilgan",
+    "goHome": "Bosh sahifaga"
+  }
+}

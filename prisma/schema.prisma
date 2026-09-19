@@ -1,0 +1,482 @@
+// =====================================================
+// Academic Lyceum "International Finance" — Database Schema
+// PostgreSQL + Prisma
+// =====================================================
+//
+// Conventions:
+// - `*_translations` tables hold localized fields (one row per locale).
+// - Slugs are unique per locale where SEO matters.
+// - All timestamps stored in UTC; rendered in user timezone on the client.
+// - Soft-delete is NOT used — site is admin-curated and small in volume.
+// =====================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =====================================================
+// WHY CHOOSE US
+// =====================================================
+
+model WhyChooseUsCard {
+  id          String   @id @default(cuid())
+  icon        String?  // lucide-react icon name
+  image       String?  // optional Cloudinary public_id
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  translations WhyChooseUsCardTranslation[]
+
+  @@index([isActive, order])
+}
+
+model WhyChooseUsCardTranslation {
+  id          String   @id @default(cuid())
+  card        WhyChooseUsCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  cardId      String
+  locale      Locale
+  title       String
+  description String   @db.Text
+
+  @@unique([cardId, locale])
+}
+
+// =====================================================
+// PARTNERS (Сотрудничетсво)
+// =====================================================
+
+model Partner {
+  id          String   @id @default(cuid())
+  logo        String?  // Cloudinary public_id
+  websiteUrl  String?
+  category    String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  translations PartnerTranslation[]
+
+  @@index([isActive, order])
+}
+
+model PartnerTranslation {
+  id          String   @id @default(cuid())
+  partner     Partner  @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  partnerId   String
+  locale      Locale
+  name        String
+  description String?  @db.Text
+
+  @@unique([partnerId, locale])
+}
+
+// =====================================================
+// ENUMS
+// =====================================================
+
+enum Locale {
+  uz
+  ru
+  en
+}
+
+enum NewsStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum AchievementCategory {
+  OLYMPIAD
+  CERTIFICATE
+  COMPETITION
+  SPORT
+  OTHER
+}
+
+enum GalleryAlbumStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum TeacherCategory {
+  ECONOMICS
+  LANGUAGES
+  MATHEMATICS
+  NATURAL_SCIENCES
+  HUMANITIES
+  OTHER
+}
+
+enum SocialPlatform {
+  TELEGRAM
+  INSTAGRAM
+  FACEBOOK
+  YOUTUBE
+  TWITTER
+  LINKEDIN
+}
+
+// =====================================================
+// ADMIN / AUTH
+// =====================================================
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  role         AdminRole @default(EDITOR)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  lastSeenAt   DateTime?
+  actions      AdminAction[]
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+model AdminAction {
+  id          String   @id @default(cuid())
+  admin       AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  adminId     String
+  action      String   // e.g. "news.create", "teacher.update"
+  entityType  String?  // "news", "teacher", ...
+  entityId    String?
+  payload     Json?
+  ip          String?
+  createdAt   DateTime @default(now())
+
+  @@index([adminId, createdAt])
+  @@index([entityType, entityId])
+}
+
+// =====================================================
+// SITE SETTINGS (single-row key/value store)
+// =====================================================
+
+model SiteSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+// =====================================================
+// SITE CONTENT (long-form multilingual blocks)
+// =====================================================
+// Used for editable static blocks like "About", "Admissions", "Contacts"
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   // e.g. "about.history", "admissions.intro"
+  locale    Locale
+  title     String?
+  body      String   @db.Text
+  data      Json?    // for structured content (lists, links, etc.)
+  isActive  Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@unique([key, locale])
+  @@index([key, locale, isActive])
+}
+
+// =====================================================
+// NEWS
+// =====================================================
+
+model News {
+  id              String     @id @default(cuid())
+  slug            String     @unique
+  status          NewsStatus @default(DRAFT)
+  coverImage      String?    // Cloudinary public_id
+  images          String[]   // additional Cloudinary public_ids
+  category        String?
+  publishedAt     DateTime?
+  isPinned        Boolean    @default(false)
+  views           Int        @default(0)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  translations    NewsTranslation[]
+
+  @@index([status, publishedAt(sort: Desc)])
+  @@index([isPinned, publishedAt(sort: Desc)])
+}
+
+model NewsTranslation {
+  id          String   @id @default(cuid())
+  news        News     @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  newsId      String
+  locale      Locale
+  title       String
+  excerpt     String   @db.Text
+  body        String   @db.Text
+  slug        String   // localized slug for /[locale]/news/[slug]
+
+  @@unique([newsId, locale])
+  @@unique([locale, slug])
+  @@index([locale])
+}
+
+// =====================================================
+// ADMINISTRATION (Leadership)
+// =====================================================
+
+model Administrator {
+  id           String   @id @default(cuid())
+  photo        String?  // Cloudinary public_id (primary photo)
+  images       String[] @default([]) // additional Cloudinary public_ids
+  email        String?
+  phone        String?
+  order        Int      @default(0)
+  isActive     Boolean  @default(true)
+  socialLinks  Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  translations AdministratorTranslation[]
+
+  @@index([isActive, order])
+}
+
+model AdministratorTranslation {
+  id              String   @id @default(cuid())
+  administrator   Administrator @relation(fields: [administratorId], references: [id], onDelete: Cascade)
+  administratorId String
+  locale          Locale
+  fullName        String
+  position        String
+  bio             String?  @db.Text
+  education       String?  @db.Text
+
+  @@unique([administratorId, locale])
+}
+
+// =====================================================
+// TEACHERS
+// =====================================================
+
+model Teacher {
+  id            String           @id @default(cuid())
+  photo         String?
+  category      TeacherCategory  @default(OTHER)
+  order         Int              @default(0)
+  isActive      Boolean          @default(true)
+  email         String?
+  socialLinks   Json?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  translations  TeacherTranslation[]
+
+  @@index([isActive, category, order])
+}
+
+model TeacherTranslation {
+  id          String   @id @default(cuid())
+  teacher     Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId   String
+  locale      Locale
+  fullName    String
+  subject     String
+  position    String?
+  education   String?  @db.Text
+  bio         String?  @db.Text
+
+  @@unique([teacherId, locale])
+}
+
+// =====================================================
+// DIRECTIONS (study tracks)
+// =====================================================
+
+model Direction {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  icon        String?
+  color       String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  translations DirectionTranslation[]
+  subjects    DirectionSubject[]
+}
+
+model DirectionTranslation {
+  id            String   @id @default(cuid())
+  direction     Direction @relation(fields: [directionId], references: [id], onDelete: Cascade)
+  directionId   String
+  locale        Locale
+  title         String
+  shortTitle    String?
+  description   String   @db.Text
+  highlights    Json?    // array of bullet strings
+  meta          Json?    // structured SEO fields
+
+  @@unique([directionId, locale])
+}
+
+model DirectionSubject {
+  id          String   @id @default(cuid())
+  direction   Direction @relation(fields: [directionId], references: [id], onDelete: Cascade)
+  directionId String
+  name        String
+  icon        String?
+  order       Int      @default(0)
+
+  @@index([directionId, order])
+}
+
+// =====================================================
+// ACHIEVEMENTS
+// =====================================================
+
+model Achievement {
+  id          String              @id @default(cuid())
+  category    AchievementCategory
+  image       String?  // primary photo (Cloudinary public_id)
+  images      String[]            @default([]) // additional Cloudinary public_ids
+  date        DateTime
+  isActive    Boolean             @default(true)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  translations AchievementTranslation[]
+
+  @@index([isActive, category, date(sort: Desc)])
+}
+
+model AchievementTranslation {
+  id            String   @id @default(cuid())
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  achievementId String
+  locale        Locale
+  title         String
+  description   String?  @db.Text
+
+  @@unique([achievementId, locale])
+}
+
+// =====================================================
+// GALLERY
+// =====================================================
+
+model GalleryAlbum {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  status      GalleryAlbumStatus @default(DRAFT)
+  coverImage  String?
+  eventDate   DateTime?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  translations GalleryAlbumTranslation[]
+  images      GalleryImage[]
+
+  @@index([status, eventDate(sort: Desc)])
+}
+
+model GalleryAlbumTranslation {
+  id          String   @id @default(cuid())
+  album       GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  albumId     String
+  locale      Locale
+  title       String
+  description String?  @db.Text
+
+  @@unique([albumId, locale])
+}
+
+model GalleryImage {
+  id          String   @id @default(cuid())
+  album       GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  albumId     String
+  publicId    String   // Cloudinary public_id
+  width       Int?
+  height      Int?
+  alt         String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([albumId, order])
+}
+
+// =====================================================
+// CONTACTS
+// =====================================================
+
+model ContactInfo {
+  id        String   @id @default(cuid())
+  // Each locale gets its own row to allow translated addresses / descriptions.
+  locale    Locale   @unique
+  address   String
+  phone     String
+  email     String
+  mapEmbed  String?  @db.Text // iframe URL
+  latitude  Float?
+  longitude Float?
+  schedule  String?  // working hours
+  description String? @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+model SocialLink {
+  id        String         @id @default(cuid())
+  platform  SocialPlatform
+  url       String
+  isVisible Boolean        @default(true)
+  order     Int            @default(0)
+  updatedAt DateTime       @updatedAt
+
+  @@unique([platform])
+  @@index([isVisible, order])
+}
+
+// =====================================================
+// BACKUPS
+// =====================================================
+
+model BackupRecord {
+  id         String   @id @default(cuid())
+  filename   String
+  size       Int
+  storage    String   // "local" | "s3"
+  status     BackupStatus @default(SUCCESS)
+  startedAt  DateTime
+  finishedAt DateTime?
+  error      String?  @db.Text
+  triggeredBy String? // "cron" | admin telegram id
+
+  @@index([startedAt(sort: Desc)])
+}
+
+enum BackupStatus {
+  RUNNING
+  SUCCESS
+  FAILED
+}
+
+// =====================================================
+// ANALYTICS (optional lightweight stats)
+// =====================================================
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  locale    String
+  referrer  String?
+  userAgent String?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([path, createdAt])
+  @@index([createdAt])
+}
