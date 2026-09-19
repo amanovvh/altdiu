@@ -3,6 +3,7 @@ import { getCurrentAdminApi } from '@/server/auth';
 import { uploadToCloudinary, validateImageFile } from '@/lib/cloudinary';
 import { saveBufferLocally } from '@/lib/storage';
 import { saveBufferToR2 } from '@/lib/r2-storage';
+import { saveBufferToVercelBlob } from '@/lib/vercel-blob-storage';
 import sharp from 'sharp';
 
 export const runtime = 'nodejs';
@@ -16,15 +17,17 @@ const MAX_SIZE = 10 * 1024 * 1024; // 10MB
 /**
  * Storage driver selection.
  *
- *   STORAGE_DRIVER=local      → write files to public/uploads/<folder>/<id>.<ext>
- *   STORAGE_DRIVER=r2         → upload to Cloudflare R2 (requires R2_* env)
- *   STORAGE_DRIVER=cloudinary → upload to Cloudinary (requires CLOUDINARY_* env)
+ *   STORAGE_DRIVER=local       → write files to public/uploads/<folder>/<id>.<ext>
+ *   STORAGE_DRIVER=r2          → upload to Cloudflare R2 (requires R2_* env)
+ *   STORAGE_DRIVER=vercel-blob → upload to Vercel Blob (requires BLOB_READ_WRITE_TOKEN)
+ *   STORAGE_DRIVER=cloudinary  → upload to Cloudinary (requires CLOUDINARY_* env)
  *
  * Default is `local` so dev works without any external account.
  */
-function getStorageDriver(): 'local' | 'r2' | 'cloudinary' {
+function getStorageDriver(): 'local' | 'r2' | 'vercel-blob' | 'cloudinary' {
   const v = (process.env.STORAGE_DRIVER ?? 'local').toLowerCase();
   if (v === 'r2') return 'r2';
+  if (v === 'vercel-blob' || v === 'blob' || v === 'vercel') return 'vercel-blob';
   if (v === 'cloudinary') return 'cloudinary';
   return 'local';
 }
@@ -103,6 +106,20 @@ export async function POST(req: NextRequest) {
 
     if (driver === 'r2') {
       const result = await saveBufferToR2(optimized, {
+        folder: folder ?? 'lyceum',
+        mime: file.type,
+      });
+      return NextResponse.json({
+        success: true,
+        publicId: result.publicId,
+        url: result.url,
+        bytes: result.bytes,
+        format: result.format,
+      });
+    }
+
+    if (driver === 'vercel-blob') {
+      const result = await saveBufferToVercelBlob(optimized, {
         folder: folder ?? 'lyceum',
         mime: file.type,
       });
