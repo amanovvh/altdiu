@@ -37,7 +37,7 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
     <ul
       className={cn(
         // Mobile (drawer): vertical stack with icons + big touch targets.
-        'flex flex-col items-stretch gap-1.5 px-2 py-2',
+        'flex flex-col items-stretch gap-2 px-1 py-1',
         // Desktop: centered pill ribbon with bordered bg so it stands out
         // from the page instead of floating thin text.
         'lg:flex-row lg:items-center lg:gap-0.5 lg:rounded-full lg:border lg:border-ink-200/80 lg:bg-white/70 lg:px-1.5 lg:py-1.5 lg:mx-auto lg:shadow-soft lg:backdrop-blur-md'
@@ -53,21 +53,25 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
               href={item.href as any}
               onClick={onNavigate}
               className={cn(
-                // Mobile: big touch target with icon + label.
-                'group relative flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-3 text-base font-medium transition-all',
+                // Mobile: card-style touch target with icon + label.
+                'group relative flex items-center gap-3 whitespace-nowrap rounded-xl border border-transparent bg-white px-4 py-3 text-base font-medium shadow-soft transition-all',
                 // Desktop: smaller pill, stronger hover/active contrast so
                 // the nav is impossible to miss.
-                'lg:gap-1.5 lg:rounded-full lg:px-4 lg:py-2 lg:text-sm lg:font-semibold lg:tracking-wide',
+                'lg:gap-1.5 lg:rounded-full lg:border-0 lg:bg-transparent lg:px-4 lg:py-2 lg:text-sm lg:font-semibold lg:tracking-wide lg:shadow-none',
                 active
-                  ? // Mobile: light navy bg + dark text. Desktop: filled dark
-                    // navy pill — maximum contrast against the light bg.
-                    'bg-primary-100 text-primary-900 lg:bg-primary-800 lg:text-white lg:shadow-md'
-                  : 'text-ink-700 hover:bg-primary-50 hover:text-primary-800 lg:hover:bg-white lg:hover:text-primary-900 lg:hover:shadow-sm'
+                  ? // Mobile: light navy card + dark text + accent border.
+                    // Desktop: filled dark navy pill — maximum contrast.
+                    'border-primary-200 bg-primary-100 text-primary-900 lg:border-transparent lg:bg-primary-800 lg:text-white lg:shadow-md'
+                  : 'text-ink-700 hover:border-primary-200 hover:bg-primary-50 hover:text-primary-800 lg:hover:border-transparent lg:hover:bg-white lg:hover:text-primary-900 lg:hover:shadow-sm'
               )}
             >
               {Icon && (
                 <Icon
-                  className="h-5 w-5 shrink-0 transition-transform group-hover:scale-110 lg:hidden"
+                  className={cn(
+                    'h-5 w-5 shrink-0 transition-transform group-hover:scale-110',
+                    active ? 'text-primary-700 lg:text-white' : 'text-ink-400 lg:text-ink-500',
+                    'lg:hidden'
+                  )}
                   strokeWidth={2}
                 />
               )}
