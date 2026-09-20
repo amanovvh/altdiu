@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { X, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { X, Phone, Mail, MapPin, ChevronRight } from 'lucide-react';
 import { NavLinks } from './NavLinks';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Logo } from './Logo';
@@ -17,17 +17,30 @@ interface Props {
   locale: Locale;
 }
 
+interface QuickContact {
+  phone?: string;
+  email?: string;
+  address?: string;
+}
+
 /**
  * Mobile drawer (slide-in panel from the right).
  *
- * The trigger button lives in the Header (top-left corner on mobile)
- * so the drawer is responsible only for the panel + backdrop.
+ * The trigger button lives in the Header (top-right corner on mobile),
+ * so this component only renders the panel + backdrop.
+ *
+ * Sections inside the drawer:
+ *  1. Header  — logo + close button
+ *  2. Nav     — 5 primary links (vertical, with icons)
+ *  3. Footer  — contact card (phone/email/address), language switcher, CTA
  */
 export function MobileMenu({ isOpen, onClose, locale }: Props) {
   const t = useTranslations('common');
   const tNav = useTranslations('nav');
+  const tMeta = useTranslations('metadata');
+  const [contact, setContact] = useState<QuickContact>({});
 
-  // Lock body scroll while drawer is open.
+  // Lock body scroll while drawer is open (restores previous overflow value).
   useEffect(() => {
     if (isOpen) {
       const prev = document.body.style.overflow;
@@ -38,7 +51,7 @@ export function MobileMenu({ isOpen, onClose, locale }: Props) {
     }
   }, [isOpen]);
 
-  // Escape closes the drawer.
+  // Escape key closes the drawer.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -48,6 +61,28 @@ export function MobileMenu({ isOpen, onClose, locale }: Props) {
       return () => window.removeEventListener('keydown', onKey);
     }
   }, [isOpen, onClose]);
+
+  // Pull the latest contact info from the public API the first time the
+  // drawer opens. Cache in component state so we don't refetch on every
+  // open within the same session.
+  useEffect(() => {
+    if (!isOpen) return;
+    let cancelled = false;
+    fetch('/api/public/social', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled || !data?.contacts) return;
+        setContact({
+          phone: data.contacts.phone,
+          email: data.contacts.email,
+          address: data.contacts.address,
+        });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -64,9 +99,6 @@ export function MobileMenu({ isOpen, onClose, locale }: Props) {
       {/* Drawer */}
       <aside
         className={cn(
-          // inset-y-0 instead of top-0 + h-full — more reliable across browsers
-          // and avoids the drawer collapsing to its content height in some
-          // mobile/responsive contexts. min-h-0 on the nav lets it scroll.
           'fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col bg-white shadow-2xl transition-transform duration-300 ease-out-soft lg:hidden',
           isOpen ? 'translate-x-0' : 'translate-x-full'
         )}
@@ -74,42 +106,83 @@ export function MobileMenu({ isOpen, onClose, locale }: Props) {
         aria-modal="true"
         aria-label={tNav('menu')}
       >
-        {/* Header — logo + close */}
-        <div className="flex shrink-0 items-center justify-between border-b border-ink-100 bg-gradient-to-b from-primary-50/40 to-transparent px-5 py-4">
-          <Link href="/" onClick={onClose} aria-label="Home">
+        {/* 1. Header — logo + close */}
+        <div className="flex shrink-0 items-center justify-between border-b border-ink-100 bg-gradient-to-b from-primary-50/60 to-transparent px-5 py-4">
+          <Link href="/" onClick={onClose} aria-label="Home" className="flex items-center">
             <Logo variant="compact" />
           </Link>
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-ink-100 text-ink-700 transition hover:bg-primary-100 hover:text-primary-800 focus:outline-none focus:ring-2 focus:ring-accent-400"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary-800 text-white shadow-md transition hover:bg-primary-900 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2"
             aria-label={t('closeMenu')}
           >
-            <X className="h-5 w-5" />
+            <X className="h-5 w-5" strokeWidth={2.5} />
           </button>
         </div>
 
-        {/* Section label */}
+        {/* Site title — context so the user knows where they are */}
         <div className="shrink-0 border-b border-ink-100 px-5 py-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent-700">
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-accent-700">
             {tNav('menu')}
           </p>
+          <p className="mt-0.5 text-xs text-ink-500">{tMeta('siteFullName')}</p>
         </div>
 
-        {/* Nav links — min-h-0 is required for overflow-y-auto inside flex */}
-        <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-4">
+        {/* 2. Nav links — vertical stack with icons, big touch targets */}
+        <nav className="min-h-0 flex-1 overflow-y-auto">
           <NavLinks onNavigate={onClose} />
         </nav>
 
-        {/* Footer — language + CTA */}
-        <div className="shrink-0 space-y-3 border-t border-ink-100 bg-surface-alt/40 px-5 py-5">
+        {/* 3. Footer — contact card + language + CTA */}
+        <div className="shrink-0 space-y-3 border-t border-ink-100 bg-surface-alt/40 px-4 py-4">
+          {/* Contact card — phone/email/address from DB (via /api/public/social) */}
+          <div className="rounded-2xl bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 p-4 text-white shadow-lg ring-1 ring-primary-700/50">
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-accent-300">
+              {tNav('contacts')}
+            </p>
+            <div className="mt-3 space-y-1.5">
+              {contact.phone && (
+                <a
+                  href={`tel:${contact.phone.replace(/\s/g, '')}`}
+                  className="flex items-center gap-3 rounded-lg p-1.5 text-sm font-medium transition hover:bg-white/10"
+                >
+                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-500/20 text-accent-300">
+                    <Phone className="h-4 w-4" strokeWidth={2.25} />
+                  </span>
+                  <span className="truncate">{contact.phone}</span>
+                </a>
+              )}
+              {contact.email && (
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="flex items-center gap-3 rounded-lg p-1.5 text-sm font-medium transition hover:bg-white/10"
+                >
+                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-500/20 text-accent-300">
+                    <Mail className="h-4 w-4" strokeWidth={2.25} />
+                  </span>
+                  <span className="truncate">{contact.email}</span>
+                </a>
+              )}
+              {contact.address && (
+                <p className="flex items-start gap-3 rounded-lg p-1.5 text-sm text-white/80">
+                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 text-white/60">
+                    <MapPin className="h-4 w-4" strokeWidth={2.25} />
+                  </span>
+                  <span className="line-clamp-2 pt-2">{contact.address}</span>
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Language + CTA */}
           <LanguageSwitcher currentLocale={locale} className="w-full" />
           <Link
             href="/contacts"
             onClick={onClose}
             className="btn-accent group flex w-full items-center justify-center gap-1.5"
           >
-            {tNav('contacts')}
+            {t('contactUs')}
             <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
