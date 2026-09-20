@@ -103,9 +103,10 @@ export default async function AboutPage({
               )}
             </div>
 
-            {/* First non-empty section preview (skipped from list below) */}
+            {/* Hero preview: show real DB content if `about.history` is filled,
+                otherwise fall back to the "История лицея" placeholder. */}
             <div>
-              {previewKey ? (
+              {byKey[previewKey]?.body ? (
                 (() => {
                   const data = byKey[previewKey];
                   return (
@@ -126,7 +127,14 @@ export default async function AboutPage({
                   );
                 })()
               ) : (
-                <Placeholder text={t('placeholder')} />
+                <article>
+                  <h2 className="font-display text-2xl font-bold text-primary-800 md:text-3xl">
+                    {t('placeholder')}
+                  </h2>
+                  <p className="mt-4 text-pretty text-ink-500 md:text-lg">
+                    Содержимое будет добавлено администрацией.
+                  </p>
+                </article>
               )}
             </div>
           </div>
