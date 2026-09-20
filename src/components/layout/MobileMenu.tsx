@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { X, Phone, Mail, MapPin, ChevronRight } from 'lucide-react';
+import { useEffect } from 'react';
+import { X, ChevronRight } from 'lucide-react';
 import { NavLinks } from './NavLinks';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Logo } from './Logo';
@@ -17,12 +17,6 @@ interface Props {
   locale: Locale;
 }
 
-interface QuickContact {
-  phone?: string;
-  email?: string;
-  address?: string;
-}
-
 /**
  * Mobile drawer (slide-in panel from the right).
  *
@@ -32,13 +26,12 @@ interface QuickContact {
  * Sections inside the drawer:
  *  1. Header  — logo + close button
  *  2. Nav     — 5 primary links (vertical, with icons)
- *  3. Footer  — contact card (phone/email/address), language switcher, CTA
+ *  3. Footer  — language switcher + "Контакты" CTA
  */
 export function MobileMenu({ isOpen, onClose, locale }: Props) {
   const t = useTranslations('common');
   const tNav = useTranslations('nav');
   const tMeta = useTranslations('metadata');
-  const [contact, setContact] = useState<QuickContact>({});
 
   // Lock body scroll while drawer is open (restores previous overflow value).
   useEffect(() => {
@@ -61,28 +54,6 @@ export function MobileMenu({ isOpen, onClose, locale }: Props) {
       return () => window.removeEventListener('keydown', onKey);
     }
   }, [isOpen, onClose]);
-
-  // Pull the latest contact info from the public API the first time the
-  // drawer opens. Cache in component state so we don't refetch on every
-  // open within the same session.
-  useEffect(() => {
-    if (!isOpen) return;
-    let cancelled = false;
-    fetch('/api/public/social', { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (cancelled || !data?.contacts) return;
-        setContact({
-          phone: data.contacts.phone,
-          email: data.contacts.email,
-          address: data.contacts.address,
-        });
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-  }, [isOpen]);
 
   return (
     <>
@@ -149,55 +120,15 @@ export function MobileMenu({ isOpen, onClose, locale }: Props) {
           <NavLinks onNavigate={onClose} />
         </nav>
 
-        {/* 3. Footer — contact card + language + CTA */}
+        {/* 3. Footer — language + CTA */}
         <div className="shrink-0 space-y-3 border-t border-ink-100 bg-surface-alt/40 px-4 py-4">
-          {/* Contact card — phone/email/address from DB (via /api/public/social) */}
-          <div className="rounded-2xl bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 p-4 text-white shadow-lg ring-1 ring-primary-700/50">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-accent-300">
-              {tNav('contacts')}
-            </p>
-            <div className="mt-3 space-y-1.5">
-              {contact.phone && (
-                <a
-                  href={`tel:${contact.phone.replace(/\s/g, '')}`}
-                  className="flex items-center gap-3 rounded-lg p-1.5 text-sm font-medium transition hover:bg-white/10"
-                >
-                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-500/20 text-accent-300">
-                    <Phone className="h-4 w-4" strokeWidth={2.25} />
-                  </span>
-                  <span className="truncate">{contact.phone}</span>
-                </a>
-              )}
-              {contact.email && (
-                <a
-                  href={`mailto:${contact.email}`}
-                  className="flex items-center gap-3 rounded-lg p-1.5 text-sm font-medium transition hover:bg-white/10"
-                >
-                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-500/20 text-accent-300">
-                    <Mail className="h-4 w-4" strokeWidth={2.25} />
-                  </span>
-                  <span className="truncate">{contact.email}</span>
-                </a>
-              )}
-              {contact.address && (
-                <p className="flex items-start gap-3 rounded-lg p-1.5 text-sm text-white/80">
-                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 text-white/60">
-                    <MapPin className="h-4 w-4" strokeWidth={2.25} />
-                  </span>
-                  <span className="line-clamp-2 pt-2">{contact.address}</span>
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Language + CTA */}
           <LanguageSwitcher currentLocale={locale} className="w-full" />
           <Link
             href="/contacts"
             onClick={onClose}
             className="btn-accent group flex w-full items-center justify-center gap-1.5"
           >
-            {t('contactUs')}
+            {tNav('contacts')}
             <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
