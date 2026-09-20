@@ -30,9 +30,9 @@ export default async function AboutPage({
     byKey[c.key] = { title: c.title, body: c.body };
   }
 
-  // Sections shown in the lower list. The first non-empty section is
-  // already rendered as a preview in the hero, so we skip it here to
-  // avoid duplicates.
+  // The history section is always rendered as a preview in the hero
+  // (either as real DB content or as a "История лицея" placeholder),
+  // so we skip it from the lower list to avoid duplication.
   const allSections = [
     { key: 'about.history', icon: BookOpen, label: t('sections.history') },
     { key: 'about.general', icon: Building, label: t('sections.general') },
@@ -41,16 +41,7 @@ export default async function AboutPage({
     { key: 'about.advantages', icon: Award, label: t('sections.advantages') },
     { key: 'about.environment', icon: Users, label: t('sections.environment') },
   ];
-  const order = allSections.map((s) => s.key);
-  const previewKey = (() => {
-    for (const key of order) {
-      if (byKey[key]?.body?.trim()) return key;
-    }
-    return null;
-  })();
-  const sections = previewKey
-    ? allSections.filter((s) => s.key !== previewKey)
-    : allSections;
+  const sections = allSections.filter((s) => s.key !== 'about.history');
 
   return (
     <>
