@@ -8,5 +8,11 @@
       "maxDuration": 60,
       "memory": 1024
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/health",
+      "schedule": "*/4 * * * *"
+    }
+  ]
 }
