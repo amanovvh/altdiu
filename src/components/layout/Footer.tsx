@@ -2,23 +2,37 @@ import { Link } from '@/lib/i18n/routing';
 import { getTranslations } from 'next-intl/server';
 import { getContactInfo, getSocialLinks } from '@/services/contact.service';
 import { Logo } from './Logo';
-import { Instagram, Send, Mail, Phone, MapPin } from 'lucide-react';
+import {
+  Instagram,
+  Send,
+  Facebook,
+  Youtube,
+  Twitter,
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
+} from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import type { Locale } from '@/lib/i18n/config';
 
 const platformIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   TELEGRAM: Send,
   INSTAGRAM: Instagram,
-  FACEBOOK: Instagram,
-  YOUTUBE: Instagram,
-  TWITTER: Instagram,
-  LINKEDIN: Instagram,
+  FACEBOOK: Facebook,
+  YOUTUBE: Youtube,
+  TWITTER: Twitter,
+  LINKEDIN: Linkedin,
 };
 
 const platformColors: Record<string, string> = {
   TELEGRAM: 'hover:bg-[#229ED9] hover:text-white hover:border-[#229ED9]',
   INSTAGRAM:
     'hover:bg-gradient-to-br hover:from-[#f58529] hover:via-[#dd2a7b] hover:to-[#8134af] hover:text-white hover:border-transparent',
+  FACEBOOK: 'hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2]',
+  YOUTUBE: 'hover:bg-[#FF0000] hover:text-white hover:border-[#FF0000]',
+  TWITTER: 'hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2]',
+  LINKEDIN: 'hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2]',
 };
 
 export async function Footer({ locale }: { locale: Locale }) {
