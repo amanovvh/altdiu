@@ -26,12 +26,17 @@ export function PartnersSection({ partners, variant = 'homepage', className }: P
   return (
     <section className={cn(variant === 'homepage' ? 'section bg-surface-alt' : 'section bg-white', className)}>
       <div className="container-wide">
-        <SectionHeader
-          eyebrow={t('partnersSubtitle')}
-          title={t('partnersTitle')}
-          align="center"
-          className="mb-12"
-        />
+        {/* On the homepage the section is standalone and needs its own header.
+            On a dedicated page (variant="full") the parent already renders
+            a SectionHeader — skip ours to avoid duplication. */}
+        {variant === 'homepage' && (
+          <SectionHeader
+            eyebrow={t('partnersSubtitle')}
+            title={t('partnersTitle')}
+            align="center"
+            className="mb-12"
+          />
+        )}
 
         <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {limited.map((partner) => {

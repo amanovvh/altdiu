@@ -15,7 +15,7 @@
     "news": "Новости",
     "gallery": "Галерея",
     "whyUs": "Почему мы",
-    "community": "Сотрудничетсво",
+    "community": "Сотрудничество",
     "admissions": "Как поступить",
     "contacts": "Контакты",
     "more": "Ещё",
@@ -72,7 +72,7 @@
     "whyUsTitle": "Почему выбирают именно нас",
     "whyUsSubtitle": "Преимущества обучения в нашем лицее",
     "whyUsViewAll": "Узнать больше",
-    "partnersTitle": "Сотрудничетсво",
+    "partnersTitle": "Сотрудничество",
     "partnersSubtitle": "Партнёры и друзья лицея",
     "partnersViewAll": "Все партнёры",
     "latestNews": "Последние новости",
@@ -98,7 +98,7 @@
     "pageSubtitle": "Преимущества обучения в нашем лицее"
   },
   "community": {
-    "pageTitle": "Сотрудничетсво",
+    "pageTitle": "Сотрудничество",
     "pageSubtitle": "Партнёры и друзья лицея"
   },
   "about": {
