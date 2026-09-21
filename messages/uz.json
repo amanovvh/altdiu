@@ -97,6 +97,17 @@
     "pageTitle": "Hamjamiyat",
     "pageSubtitle": "Litseyning hamkorlari va do'stlari"
   },
+  "partnershipEvents": {
+    "sectionEyebrow": "Tadbirlar",
+    "sectionTitle": "Munozaralar, uchrashuvlar va forumlar",
+    "categories": {
+      "DEBATE": "Munozara",
+      "MEETING": "Uchrashuv",
+      "FORUM": "Forum",
+      "SIGNING": "Hujjat imzolash",
+      "OTHER": "Boshqa"
+    }
+  },
   "about": {
     "pageTitle": "Litsey haqida",
     "pageSubtitle": "Tarix, qadriyatlar va akademik muhit",

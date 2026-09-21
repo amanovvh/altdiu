@@ -2,11 +2,23 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import type { PartnershipEventCategory } from '@prisma/client';
 import {
   createPartnershipEvent,
   updatePartnershipEvent,
   deletePartnershipEvent,
 } from '@/services/partnership-event.service';
+
+const VALID_CATEGORIES: PartnershipEventCategory[] = [
+  'DEBATE', 'MEETING', 'FORUM', 'SIGNING', 'OTHER',
+];
+
+function parseCategory(v: FormDataEntryValue | null): PartnershipEventCategory {
+  const s = String(v ?? '').toUpperCase();
+  return (VALID_CATEGORIES as string[]).includes(s)
+    ? (s as PartnershipEventCategory)
+    : 'OTHER';
+}
 
 export async function createPartnershipEventAction(formData: FormData) {
   const title = String(formData.get('title') ?? '').trim();
@@ -24,6 +36,7 @@ export async function createPartnershipEventAction(formData: FormData) {
   const date = dateRaw ? new Date(dateRaw) : new Date();
   const order = Number(formData.get('order') ?? 0);
   const isActive = formData.get('isActive') === 'on';
+  const category = parseCategory(formData.get('category'));
 
   if (!title) {
     throw new Error('Заполните название');
@@ -32,6 +45,7 @@ export async function createPartnershipEventAction(formData: FormData) {
   await createPartnershipEvent({
     title,
     description,
+    category,
     location,
     coverImage,
     photos,
@@ -61,6 +75,7 @@ export async function updatePartnershipEventAction(id: string, formData: FormDat
   const date = dateRaw ? new Date(dateRaw) : new Date();
   const order = Number(formData.get('order') ?? 0);
   const isActive = formData.get('isActive') === 'on';
+  const category = parseCategory(formData.get('category'));
 
   if (!title) {
     throw new Error('Заполните название');
@@ -69,6 +84,7 @@ export async function updatePartnershipEventAction(id: string, formData: FormDat
   await updatePartnershipEvent(id, {
     title,
     description,
+    category,
     location,
     coverImage,
     photos,

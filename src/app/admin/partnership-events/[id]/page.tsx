@@ -30,6 +30,7 @@ export default async function EditPartnershipEventPage({
           initial={{
             title: event.title,
             description: event.description,
+            category: event.category,
             location: event.location,
             coverImage: event.coverImage,
             photos: event.photos,

@@ -20,8 +20,9 @@ export default async function CommunityPage({
   if (!isValidLocale(locale)) notFound();
   const typedLocale = locale as Locale;
 
-  const [t, partners, events, content] = await Promise.all([
+  const [t, tEvents, partners, events, content] = await Promise.all([
     getTranslations({ locale, namespace: 'community' }),
+    getTranslations({ locale, namespace: 'partnershipEvents' }),
     getPartners(typedLocale),
     getPartnershipEvents(),
     getAllSiteContent(typedLocale),
@@ -56,8 +57,8 @@ export default async function CommunityPage({
         <section className="section bg-surface-alt">
           <div className="container-wide">
             <SectionHeader
-              eyebrow="Мероприятия"
-              title="Дебаты, встречи и форумы"
+              eyebrow={tEvents('sectionEyebrow')}
+              title={tEvents('sectionTitle')}
               align="center"
               className="mb-10"
             />
@@ -82,17 +83,19 @@ export default async function CommunityPage({
                       </div>
                     )}
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary-900/85 via-primary-900/40 to-transparent p-6 text-white md:p-8">
-                      <h3 className="text-balance text-2xl font-bold md:text-3xl">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-500/95 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white shadow-md">
+                        {tEvents(`categories.${event.category}`)}
+                      </span>
+                      <h3 className="mt-2 text-balance text-2xl font-bold md:text-3xl">
                         {event.title}
                       </h3>
                       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ink-100">
                         <span className="inline-flex items-center gap-1.5">
                           <Calendar className="h-3.5 w-3.5" />
-                          {new Intl.DateTimeFormat('ru-RU', {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric',
-                          }).format(event.date)}
+                          {new Intl.DateTimeFormat(
+                            typedLocale === 'uz' ? 'uz-UZ' : typedLocale === 'en' ? 'en-US' : 'ru-RU',
+                            { day: 'numeric', month: 'long', year: 'numeric' }
+                          ).format(event.date)}
                         </span>
                         {event.location && (
                           <span className="inline-flex items-center gap-1.5">

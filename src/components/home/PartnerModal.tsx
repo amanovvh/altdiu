@@ -49,7 +49,7 @@ export function PartnerModal({ partner, locale, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-primary-950/70 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-stretch justify-center bg-primary-950/70 p-0 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -57,7 +57,10 @@ export function PartnerModal({ partner, locale, onClose }: Props) {
     >
       <div
         className={cn(
-          'relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl',
+          // Mobile: full-screen sheet (no border-radius, takes entire viewport)
+          // sm+: centered card with max-width, rounded corners, max-height
+          'relative flex w-full flex-col overflow-hidden bg-white shadow-2xl',
+          'max-h-screen sm:max-h-[90vh] sm:max-w-3xl sm:rounded-3xl',
           'animate-in fade-in zoom-in-95 duration-200'
         )}
         onClick={(e) => e.stopPropagation()}

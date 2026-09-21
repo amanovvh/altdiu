@@ -97,6 +97,17 @@
     "pageTitle": "Community",
     "pageSubtitle": "Partners and friends of the lyceum"
   },
+  "partnershipEvents": {
+    "sectionEyebrow": "Events",
+    "sectionTitle": "Debates, meetings and forums",
+    "categories": {
+      "DEBATE": "Debate",
+      "MEETING": "Meeting",
+      "FORUM": "Forum",
+      "SIGNING": "Document signing",
+      "OTHER": "Other"
+    }
+  },
   "about": {
     "pageTitle": "About the Lyceum",
     "pageSubtitle": "History, values and academic environment",

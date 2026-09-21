@@ -97,6 +97,17 @@
     "pageTitle": "Сотрудничество",
     "pageSubtitle": "Партнёры и друзья лицея"
   },
+  "partnershipEvents": {
+    "sectionEyebrow": "Мероприятия",
+    "sectionTitle": "Дебаты, встречи и форумы",
+    "categories": {
+      "DEBATE": "Дебаты",
+      "MEETING": "Встреча",
+      "FORUM": "Форум",
+      "SIGNING": "Подписание документа",
+      "OTHER": "Другое"
+    }
+  },
   "about": {
     "pageTitle": "О лицее",
     "pageSubtitle": "История, ценности и академическая среда",

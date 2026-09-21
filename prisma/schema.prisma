@@ -89,6 +89,7 @@ model PartnershipEvent {
   id          String   @id @default(cuid())
   title       String
   description String?  @db.Text
+  category    PartnershipEventCategory @default(OTHER)
   date        DateTime
   location    String?  // e.g. "Ташкент, ТГЭУ"
   coverImage  String?  // Vercel Blob URL (главное фото)
@@ -169,6 +170,14 @@ enum AdminRole {
   SUPER_ADMIN
   ADMIN
   EDITOR
+}
+
+enum PartnershipEventCategory {
+  DEBATE    // Дебаты / Debates
+  MEETING   // Встреча / Meeting
+  FORUM     // Форум / Forum
+  SIGNING   // Подписание документа / Document signing
+  OTHER     // Другое / Other
 }
 
 model AdminAction {

@@ -1,9 +1,11 @@
 import { prisma } from '@/lib/db/prisma';
+import type { PartnershipEventCategory } from '@prisma/client';
 
 export interface PartnershipEvent {
   id: string;
   title: string;
   description: string | null;
+  category: PartnershipEventCategory;
   date: Date;
   location: string | null;
   coverImage: string | null;
@@ -39,6 +41,7 @@ export async function getPartnershipEvent(id: string): Promise<PartnershipEvent 
 export async function createPartnershipEvent(input: {
   title: string;
   description?: string | null;
+  category?: PartnershipEventCategory;
   date?: Date;
   location?: string | null;
   coverImage?: string | null;
@@ -50,6 +53,7 @@ export async function createPartnershipEvent(input: {
     data: {
       title: input.title,
       description: input.description ?? null,
+      category: input.category ?? 'OTHER',
       date: input.date ?? new Date(),
       location: input.location ?? null,
       coverImage: input.coverImage ?? null,
@@ -65,6 +69,7 @@ export async function updatePartnershipEvent(
   input: Partial<{
     title: string;
     description: string | null;
+    category: PartnershipEventCategory;
     date: Date;
     location: string | null;
     coverImage: string | null;

@@ -8,6 +8,7 @@ interface Props {
   initial?: {
     title: string;
     description: string | null;
+    category?: string;
     location: string | null;
     coverImage: string | null;
     photos: string[];
@@ -18,6 +19,14 @@ interface Props {
   action: (formData: FormData) => Promise<void>;
   id?: string;
 }
+
+const CATEGORIES = [
+  { value: 'DEBATE', label: 'Дебаты' },
+  { value: 'MEETING', label: 'Встреча' },
+  { value: 'FORUM', label: 'Форум' },
+  { value: 'SIGNING', label: 'Подписание документа' },
+  { value: 'OTHER', label: 'Другое' },
+];
 
 export function PartnershipEventForm({ initial, action, id }: Props) {
   const router = useRouter();
@@ -78,6 +87,24 @@ export function PartnershipEventForm({ initial, action, id }: Props) {
           placeholder="Дебаты с ТГЭУ на тему «Цифровая экономика»"
           className="form-input"
         />
+      </div>
+
+      <div>
+        <label className="form-label">Категория</label>
+        <select
+          name="category"
+          defaultValue={initial?.category ?? 'OTHER'}
+          className="form-input"
+        >
+          {CATEGORIES.map((c) => (
+            <option key={c.value} value={c.value}>
+              {c.label}
+            </option>
+          ))}
+        </select>
+        <p className="mt-1 text-xs text-ink-500">
+          Отображается на сайте как бейдж над заголовком события.
+        </p>
       </div>
 
       <div>
