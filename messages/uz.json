@@ -16,7 +16,6 @@
     "gallery": "Galereya",
     "whyUs": "Nega biz",
     "community": "Hamjamiyat",
-    "admissions": "Qabul",
     "contacts": "Bog'lanish",
     "more": "Yana",
     "menu": "Menyu"
@@ -87,9 +86,6 @@
     "teachersSubtitle": "Xalqaro tajribaga ega tajribali pedagoglar va olimlar",
     "galleryTitle": "Litsey hayoti",
     "gallerySubtitle": "Akademik hayotimizdan lahzalar",
-    "admissionsTitle": "Qabul",
-    "admissionsSubtitle": "DTM orqali qabul qilish",
-    "admissionsCta": "Batafsil ma'lumot",
     "contactsTitle": "Biz bilan bog'laning",
     "contactsSubtitle": "Savollaringizga javob berishdan doimo mamnunmiz"
   },
@@ -157,7 +153,8 @@
         "russian": "Rus tili",
         "english": "Ingliz tili"
       }
-    }
+    },
+    "contactPrompt": "Ushbu yo'nalish haqida batafsil ma'lumot olish uchun biz bilan bog'laning"
   },
   "achievements": {
     "pageTitle": "Yutuqlar",
@@ -187,25 +184,6 @@
     "album": "Albom",
     "backToAlbums": "Barcha albomlar",
     "placeholder": "Albomlar qo'shiladi"
-  },
-  "admissions": {
-    "pageTitle": "Litseyga qanday qabul qilish",
-    "pageSubtitle": "Qabul DTM (Davlat test markazi) orqali amalga oshiriladi",
-    "intro": "Kirish",
-    "eligibility": "Kim hujjat topshirishi mumkin",
-    "stages": "Asosiy bosqichlar",
-    "process": "Qabul qanday amalga oshadi",
-    "system": "Ro'yxatga olish tizimi",
-    "documents": "Kerakli hujjatlar",
-    "conditions": "Muhim shartlar",
-    "deadlines": "Muddati",
-    "links": "Foydali havolalar",
-    "recommendations": "Tavsiyalar",
-    "ctaTitle": "Boshlashga tayyormisiz?",
-    "ctaText": "DTM rasmiy e'lonlari va bizning ijtimoiy tarmoqlarimizni kuzatib boring",
-    "placeholder": "Qabul haqida batafsil ma'lumot ma'muriyat tomonidan qo'shiladi",
-    "dtmLink": "DTM rasmiy sayti",
-    "noApplicationForm": "Arizani faqat DTM orqali topshirish mumkin. Litsey sayt orqali arizalarni qabul qilmaydi."
   },
   "contacts": {
     "pageTitle": "Bog'lanish",

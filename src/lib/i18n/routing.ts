@@ -20,7 +20,6 @@ export const routing = defineRouting({
     '/gallery/[slug]': '/gallery/[slug]',
     '/why-us': '/why-us',
     '/community': '/community',
-    '/admissions': '/admissions',
     '/contacts': '/contacts',
   },
 });

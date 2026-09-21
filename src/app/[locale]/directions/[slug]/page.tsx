@@ -131,15 +131,15 @@ export default async function DirectionDetailPage({
 
           <aside className="space-y-6">
             <div className="rounded-2xl bg-gradient-brand p-6 text-white">
-              <h3 className="font-display text-xl font-bold">Хотите поступить?</h3>
+              <h3 className="font-display text-xl font-bold">{tNav('contacts')}</h3>
               <p className="mt-2 text-sm text-ink-200">
-                Узнайте подробности о поступлении через систему ДТМ.
+                {tDirections('contactPrompt')}
               </p>
               <Link
-                href="/admissions"
+                href="/contacts"
                 className="btn-accent mt-4 w-full group"
               >
-                {tCommon('learnMore')}
+                {tCommon('contactUs')}
                 <ArrowLeft className="h-4 w-4 rotate-180" />
               </Link>
             </div>

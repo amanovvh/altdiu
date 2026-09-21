@@ -16,7 +16,6 @@
     "gallery": "Gallery",
     "whyUs": "Why Us",
     "community": "Community",
-    "admissions": "Admissions",
     "contacts": "Contacts",
     "more": "More",
     "menu": "Menu"
@@ -87,9 +86,6 @@
     "teachersSubtitle": "Experienced educators and scholars with international backgrounds",
     "galleryTitle": "Lyceum life",
     "gallerySubtitle": "Moments from our academic life",
-    "admissionsTitle": "Admissions",
-    "admissionsSubtitle": "Admission through the State Testing Center",
-    "admissionsCta": "Learn more",
     "contactsTitle": "Contact us",
     "contactsSubtitle": "We are always happy to answer your questions"
   },
@@ -157,7 +153,8 @@
         "russian": "Russian",
         "english": "English"
       }
-    }
+    },
+    "contactPrompt": "Get in touch for more details about this program"
   },
   "achievements": {
     "pageTitle": "Achievements",
@@ -187,25 +184,6 @@
     "album": "Album",
     "backToAlbums": "All albums",
     "placeholder": "Albums will be added"
-  },
-  "admissions": {
-    "pageTitle": "How to apply",
-    "pageSubtitle": "Admission is conducted through the State Testing Center (DTM)",
-    "intro": "Introduction",
-    "eligibility": "Who can apply",
-    "stages": "Main stages",
-    "process": "How admission works",
-    "system": "Registration system",
-    "documents": "Required documents",
-    "conditions": "Important conditions",
-    "deadlines": "Deadlines",
-    "links": "Useful links",
-    "recommendations": "Recommendations",
-    "ctaTitle": "Ready to start?",
-    "ctaText": "Follow official DTM announcements and our social media channels",
-    "placeholder": "Detailed admissions information will be added by administration",
-    "dtmLink": "Official DTM website",
-    "noApplicationForm": "Applications are submitted only through the DTM system. The lyceum does not accept applications directly through the website."
   },
   "contacts": {
     "pageTitle": "Contacts",

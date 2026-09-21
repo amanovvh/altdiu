@@ -57,7 +57,6 @@ academic-lyceum-website/
 │   │   │   ├── achievements/
 │   │   │   ├── news/
 │   │   │   ├── gallery/
-│   │   │   ├── admissions/
 │   │   │   └── contacts/
 │   │   ├── admin/            # ADMIN PANEL — not localized
 │   │   │   ├── layout.tsx    # Sidebar + content shell

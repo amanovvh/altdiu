@@ -36,7 +36,7 @@ export default async function HomePage({
   if (!isValidLocale(locale)) notFound();
   const typedLocale = locale as Locale;
 
-  const [tHome, tCommon, tHero, tNav, tDirections, tTeachers, tAbout, tAdmissions, tContacts] = await Promise.all([
+  const [tHome, tCommon, tHero, tNav, tDirections, tTeachers, tAbout, tContacts] = await Promise.all([
     getTranslations({ locale, namespace: 'home' }),
     getTranslations({ locale, namespace: 'common' }),
     getTranslations({ locale, namespace: 'hero' }),
@@ -44,7 +44,6 @@ export default async function HomePage({
     getTranslations({ locale, namespace: 'directions' }),
     getTranslations({ locale, namespace: 'teachers' }),
     getTranslations({ locale, namespace: 'about' }),
-    getTranslations({ locale, namespace: 'admissions' }),
     getTranslations({ locale, namespace: 'contacts' }),
   ]);
 
@@ -75,7 +74,7 @@ export default async function HomePage({
         <div className="pointer-events-none absolute inset-0">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: 'url(/hero-bg.jpeg)' }}
+            style={{ backgroundImage: 'url(/hero-campus-2026.jpg)' }}
             aria-hidden
           />
           <div
@@ -400,7 +399,7 @@ export default async function HomePage({
       {/* ============== PARTNERS (Сотрудничетсво) ============== */}
       <PartnersSection partners={partners} variant="homepage" />
 
-      {/* ============== ADMISSIONS CTA ============== */}
+      {/* ============== CONTACTS CTA ============== */}
       <section className="section">
         <div className="container-wide">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-brand p-10 text-white md:p-14 lg:p-20">
@@ -414,24 +413,18 @@ export default async function HomePage({
             />
             <div className="relative max-w-2xl">
               <span className="text-xs font-semibold uppercase tracking-[0.18em] text-accent-400">
-                {tNav('admissions')}
+                {tNav('contacts')}
               </span>
               <h2 className="mt-3 text-balance text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-                {tHome('admissionsTitle')}
+                {tHome('contactsTitle')}
               </h2>
               <p className="mt-4 text-pretty text-ink-200 md:text-lg">
-                {tAdmissions('pageSubtitle')}
+                {tHome('contactsSubtitle')}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/admissions" className="btn-accent group">
-                  {tHome('admissionsCta')}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </Link>
-                <Link
-                  href="/contacts"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-white/10"
-                >
+                <Link href="/contacts" className="btn-accent group">
                   {tCommon('contactUs')}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </div>
             </div>
