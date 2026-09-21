@@ -64,3 +64,4 @@ public/uploads/*
 
 # prisma
 prisma/migrations/dev.db*
+.env*
