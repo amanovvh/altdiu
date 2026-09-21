@@ -18,6 +18,7 @@ import { getSiteSettings } from '@/services/site-settings.service';
 import { getWhyChooseUsCards } from '@/services/why-choose-us.service';
 import { getPartners } from '@/services/partner.service';
 import { getAboutHeroImage, getAboutSectionPreview } from '@/services/about-media.service';
+import { getHomeHeroImage } from '@/services/home-media.service';
 import { truncate } from '@/lib/utils/text';
 import { WhyChooseUsSection } from '@/components/home/WhyChooseUsSection';
 import { PartnersSection } from '@/components/home/PartnersSection';
@@ -47,7 +48,7 @@ export default async function HomePage({
     getTranslations({ locale, namespace: 'contacts' }),
   ]);
 
-  const [homepageNews, teachers, directions, achievements, settings, whyUs, partners, aboutHero, aboutPreview] = await Promise.all([
+  const [homepageNews, teachers, directions, achievements, settings, whyUs, partners, aboutHero, aboutPreview, homeHero] = await Promise.all([
     getHomepageNews(typedLocale, 5),
     getTeachers(typedLocale, { category: undefined }),
     getDirections(typedLocale),
@@ -57,6 +58,7 @@ export default async function HomePage({
     getPartners(typedLocale),
     getAboutHeroImage(typedLocale),
     getAboutSectionPreview(typedLocale),
+    getHomeHeroImage(typedLocale),
   ]);
 
   // Combine latest + recent for the homepage carousel.
@@ -66,11 +68,16 @@ export default async function HomePage({
 
   const stats = settings.heroStats;
 
-  // Hero background is sourced from the DB ("about.hero_image" SiteContent row,
-  // editable via /admin/about) so the photo comes from Vercel Blob and isn't
-  // tied to the public/ directory — which Vercel aggressively caches between
-  // deploys. Falls back to a CSS gradient when no image has been uploaded yet.
-  const heroBgUrl = aboutHero?.src ? buildCloudinaryUrl(aboutHero.src) : null;
+  // Hero background source preference:
+  //   1. `home.hero_image` SiteContent row (uploaded to Vercel Blob) — survives
+  //      Vercel public/ cache, edited via /admin/about or seeded via
+  //      POST /api/internal/seed-hero
+  //   2. `/hero-lyceum-building.jpg` shipped in the repo — works locally and
+  //      after a fresh deploy, but Vercel may cache it between deploys.
+  //   3. None → pure CSS gradient.
+  const heroBgUrl = homeHero?.src
+    ? buildCloudinaryUrl(homeHero.src)
+    : '/hero-lyceum-building.jpg';
 
   return (
     <>
@@ -78,18 +85,11 @@ export default async function HomePage({
       <section className="relative overflow-hidden text-white">
         {/* Background photo + overlay */}
         <div className="pointer-events-none absolute inset-0">
-          {heroBgUrl ? (
-            <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url(${heroBgUrl})` }}
-              aria-hidden
-            />
-          ) : (
-            <div
-              className="absolute inset-0 bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800"
-              aria-hidden
-            />
-          )}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url(${heroBgUrl})` }}
+            aria-hidden
+          />
           <div
             className="absolute inset-0 bg-gradient-to-br from-primary-900/85 via-primary-800/75 to-primary-900/85"
             aria-hidden
