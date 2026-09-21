@@ -77,6 +77,45 @@ model PartnerTranslation {
 }
 
 // =====================================================
+// PARTNERSHIP DOCUMENTS — agreements / contracts / PDFs
+// =====================================================
+
+model PartnerDocument {
+  id          String   @id @default(cuid())
+  title       String   // e.g. "Договор о сотрудничестве с ТГЭУ"
+  description String?  @db.Text
+  fileUrl     String   // URL to PDF (Vercel Blob)
+  fileSize    Int?     // bytes (для UI)
+  date        DateTime @default(now())
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive, order, date])
+}
+
+// =====================================================
+// PARTNERSHIP EVENTS — дебаты, встречи, форумы с фото
+// =====================================================
+
+model PartnershipEvent {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  date        DateTime
+  location    String?  // e.g. "Ташкент, ТГЭУ"
+  coverImage  String?  // Vercel Blob URL (главное фото)
+  photos      String[] // дополнительные фото (Vercel Blob URLs)
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive, order, date])
+}
+
+// =====================================================
 // ENUMS
 // =====================================================
 

@@ -20,6 +20,8 @@ import {
   ExternalLink,
   Sparkles,
   Handshake,
+  FileText,
+  Calendar,
 } from 'lucide-react';
 import { Logo } from '@/components/layout/Logo';
 import { logoutAction } from '@/app/admin/login/actions';
@@ -54,7 +56,9 @@ const NAV: { section: string; items: NavItem[] }[] = [
       { href: '/admin/directions', label: 'Направления', icon: BookOpen },
       { href: '/admin/achievements', label: 'Достижения', icon: Trophy },
       { href: '/admin/why-us', label: 'Почему мы', icon: Sparkles },
-      { href: '/admin/partners', label: 'Сотрудничетсво', icon: Handshake },
+      { href: '/admin/partners', label: 'Сотрудничество', icon: Handshake },
+      { href: '/admin/partners-documents', label: 'Документы', icon: FileText },
+      { href: '/admin/partnership-events', label: 'Мероприятия', icon: Calendar },
     ],
   },
   {
