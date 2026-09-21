@@ -8,7 +8,6 @@ import {
   Trophy,
   GraduationCap,
   Building2,
-  Users,
   ChevronRight,
   type LucideIcon,
 } from 'lucide-react';
@@ -19,7 +18,6 @@ const ICONS: Record<string, LucideIcon> = {
   '/community': Handshake,
   '/achievements': Trophy,
   '/teachers': GraduationCap,
-  '/administration': Users,
   '/about': Building2,
 };
 
@@ -32,7 +30,6 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
     { href: '/community', label: t('community') },
     { href: '/achievements', label: t('achievements') },
     { href: '/teachers', label: t('teachers') },
-    { href: '/administration', label: t('administration') },
     { href: '/about', label: t('about') },
   ];
 

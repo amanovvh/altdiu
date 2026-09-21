@@ -16,6 +16,9 @@ import { getDirections } from '@/services/direction.service';
 import { getAchievements } from '@/services/achievement.service';
 import { getSiteSettings } from '@/services/site-settings.service';
 import { getWhyChooseUsCards } from '@/services/why-choose-us.service';
+import { getAdministrators } from '@/services/administration.service';
+import { CldImage } from '@/components/ui/CldImage';
+import { UserCircle2 } from 'lucide-react';
 import { getPartners } from '@/services/partner.service';
 import { getAboutHeroImage, getAboutSectionPreview } from '@/services/about-media.service';
 import { getHomeHeroImage } from '@/services/home-media.service';
@@ -48,7 +51,7 @@ export default async function HomePage({
     getTranslations({ locale, namespace: 'contacts' }),
   ]);
 
-  const [homepageNews, teachers, directions, achievements, settings, whyUs, partners, aboutHero, aboutPreview, homeHero] = await Promise.all([
+  const [homepageNews, teachers, directions, achievements, settings, whyUs, partners, aboutHero, aboutPreview, homeHero, administrators] = await Promise.all([
     getHomepageNews(typedLocale, 5),
     getTeachers(typedLocale, { category: undefined }),
     getDirections(typedLocale),
@@ -59,6 +62,7 @@ export default async function HomePage({
     getAboutHeroImage(typedLocale),
     getAboutSectionPreview(typedLocale),
     getHomeHeroImage(typedLocale),
+    getAdministrators(typedLocale),
   ]);
 
   // Combine latest + recent for the homepage carousel.
@@ -234,6 +238,67 @@ export default async function HomePage({
 
       {/* ============== WHY CHOOSE US ============== */}
       <WhyChooseUsSection cards={whyUs} variant="homepage" />
+
+      {/* ============== ADMINISTRATION (Руководство) ============== */}
+      {administrators.length > 0 && (
+        <section className="section bg-surface-alt">
+          <div className="container-wide">
+            <div className="mb-10 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-accent-700">
+                  <span aria-hidden className="h-px w-6 bg-accent-400" />
+                  {tNav('administration')}
+                </span>
+                <h2 className="mt-3 text-balance text-3xl font-bold text-primary-900 md:text-4xl lg:text-5xl">
+                  Руководство лицея
+                </h2>
+                <p className="mt-3 max-w-2xl text-pretty text-base text-ink-600 md:text-lg">
+                  Директор и заместители, которые отвечают за образовательный процесс и развитие лицея.
+                </p>
+              </div>
+              <Link href="/administration" className="btn-outline group shrink-0">
+                Все руководители
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {administrators.slice(0, 3).map((a) => (
+                <article
+                  key={a.id}
+                  className="group overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <div className="flex items-start gap-4 p-5">
+                    <div className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-gradient-soft ring-1 ring-primary-100">
+                      {a.photo ? (
+                        <CldImage
+                          publicId={a.photo}
+                          alt={a.fullName}
+                          width={96}
+                          height={96}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-primary-300">
+                          <UserCircle2 className="h-12 w-12" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="line-clamp-2 text-base font-bold text-primary-800">
+                        {a.fullName}
+                      </h3>
+                      <p className="mt-1 line-clamp-2 text-sm font-medium text-accent-700">
+                        {a.position}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ============== DIRECTIONS ============== */}
       <section className="section">
