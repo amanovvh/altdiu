@@ -55,7 +55,7 @@ export async function Footer({ locale }: { locale: Locale }) {
       <div className="container-wide relative grid gap-12 py-16 md:grid-cols-12 lg:py-20">
         <div className="md:col-span-5 lg:col-span-5">
           <div className="flex items-center gap-3">
-            <Logo />
+            <Logo theme="dark" />
           </div>
           <p className="mt-5 max-w-md text-sm leading-relaxed text-ink-300">
             {t('about')}

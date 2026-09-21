@@ -8,6 +8,12 @@ interface LogoProps {
   markOnly?: boolean;
   /** Force the inline SVG fallback instead of /logo.jpeg (e.g. for tests). */
   fallback?: boolean;
+  /**
+   * Color theme for the wordmark text.
+   * - `light` (default): dark navy on white background (Header, public pages)
+   * - `dark`: white text for use on dark navy backgrounds (Footer)
+   */
+  theme?: 'light' | 'dark';
 }
 
 /**
@@ -24,6 +30,7 @@ export function Logo({
   className,
   markOnly = false,
   fallback = false,
+  theme = 'light',
 }: LogoProps) {
   const effectiveVariant = markOnly ? 'mark' : variant;
   const height =
@@ -74,11 +81,21 @@ export function Logo({
 
       {showWordmark && (
         <span className="flex flex-col leading-tight">
-          <span className="font-display text-lg font-bold tracking-tight text-primary-800">
+          <span
+            className={cn(
+              'font-display text-lg font-bold tracking-tight',
+              theme === 'dark' ? 'text-white' : 'text-primary-800'
+            )}
+          >
             International Finance
           </span>
           {showSubtitle && (
-            <span className="text-[10px] uppercase tracking-[0.18em] text-ink-500">
+            <span
+              className={cn(
+                'text-[10px] uppercase tracking-[0.18em]',
+                theme === 'dark' ? 'text-ink-300' : 'text-ink-500'
+              )}
+            >
               Academic Lyceum · TSUE
             </span>
           )}
