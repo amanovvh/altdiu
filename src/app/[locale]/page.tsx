@@ -66,17 +66,30 @@ export default async function HomePage({
 
   const stats = settings.heroStats;
 
+  // Hero background is sourced from the DB ("about.hero_image" SiteContent row,
+  // editable via /admin/about) so the photo comes from Vercel Blob and isn't
+  // tied to the public/ directory — which Vercel aggressively caches between
+  // deploys. Falls back to a CSS gradient when no image has been uploaded yet.
+  const heroBgUrl = aboutHero?.src ? buildCloudinaryUrl(aboutHero.src) : null;
+
   return (
     <>
       {/* ============== HERO ============== */}
       <section className="relative overflow-hidden text-white">
         {/* Background photo + overlay */}
         <div className="pointer-events-none absolute inset-0">
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: 'url(/hero-campus-2026.jpg)' }}
-            aria-hidden
-          />
+          {heroBgUrl ? (
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${heroBgUrl})` }}
+              aria-hidden
+            />
+          ) : (
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800"
+              aria-hidden
+            />
+          )}
           <div
             className="absolute inset-0 bg-gradient-to-br from-primary-900/85 via-primary-800/75 to-primary-900/85"
             aria-hidden
