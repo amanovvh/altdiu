@@ -2,20 +2,36 @@
 
 A production-ready full-stack website for the **Academic Lyceum under Tashkent State University of Economics «International Finance»** with a secure web Admin Panel.
 
+🌐 **Live:** https://altdiu.vercel.app
+
 ---
 
-## ✨ Highlights
+## 👋 Для нового администратора сайта / преемника
+
+**Если ты здесь, потому что предыдущий разработчик ушёл**, начни с этих документов (в таком порядке):
+
+1. **[ADMIN_GUIDE.md](./ADMIN_GUIDE.md)** — как работать с админкой (новости, галерея, достижения) — **5 минут**
+2. **[EMERGENCY.md](./EMERGENCY.md)** — что делать если сайт упал — прочитай заранее
+3. **[DEPLOY.md](./DEPLOY.md)** — как развернуть с нуля или мигрировать
+4. **[MAINTENANCE.md](./MAINTENANCE.md)** — ежегодное обслуживание (30 минут в год)
+
+Если что-то непонятно — все 4 файла написаны для человека без опыта программирования.
+
+---
+
+## ✨ Технические детали (для разработчиков)
 
 - **Frontend** — Next.js 14 (App Router) + TypeScript + Tailwind CSS
 - **Backend** — Next.js API Routes + Server Actions + Prisma ORM
-- **Database** — PostgreSQL
-- **Storage** — Cloudinary (image optimization + CDN)
+- **Database** — PostgreSQL (managed: Prisma Postgres)
+- **Storage** — Vercel Blob (S3-compatible, 500 MB free)
 - **Auth** — bcrypt password hashing + JWT session cookies (jose)
 - **Admin Panel** — `/admin` route, protected by middleware, full CMS
 - **Languages** — Russian / Uzbek / English with full SEO alternates
-- **Performance** — Server Components, lazy loading, Cloudinary `f_auto,q_auto`
-- **Backup** — Built-in shell scripts + optional in-app backup endpoint
+- **Performance** — Server Components, lazy loading, Vercel CDN
 - **Security** — Server-side validation (zod), HMAC-signed sessions, role-based access
+
+**Cost:** 0₽/мес on Vercel Hobby + Prisma Postgres Free + Vercel Blob Free tiers.
 
 ---
 
@@ -23,33 +39,41 @@ A production-ready full-stack website for the **Academic Lyceum under Tashkent S
 
 ```
 academic-lyceum-website/
+├── ADMIN_GUIDE.md          # ← для контент-менеджера (новости, галерея)
+├── DEPLOY.md               # ← как развернуть с нуля
+├── EMERGENCY.md            # ← что делать если сайт упал
+├── MAINTENANCE.md          # ← обслуживание раз в год
+├── AGENTS.md               # ← для AI-агентов / новых разработчиков
+├── BOTFATHER_SETUP.md      # ← настройка Telegram бота
 ├── prisma/
-│   ├── schema.prisma         # Database schema (22 models, multilingual)
-│   └── seed.ts               # Seeds default content + first admin
+│   ├── schema.prisma       # Database schema (22 models, multilingual)
+│   ├── seed.ts             # Seeds default content + first admin
+│   └── migrations/
 ├── messages/
-│   ├── ru.json               # Russian translations
-│   ├── uz.json               # Uzbek translations
-│   └── en.json               # English translations
+│   ├── ru.json             # Russian translations
+│   ├── uz.json             # Uzbek translations
+│   └── en.json             # English translations
 ├── public/
-│   ├── logo.jpeg             # Official seal
+│   ├── logo.jpeg           # Official seal
+│   ├── hero-lyceum-building.jpg  # Hero background photo
 │   ├── favicon-32.png
 │   ├── favicon-192.png
 │   ├── favicon-512.png
 │   └── og-image.png
 ├── scripts/
-│   ├── backup.sh             # Cron-friendly PG backup
-│   ├── restore.sh            # Restore from backup
-│   └── create-admin.ts       # CLI to create/update admins
+│   ├── backup.sh           # Cron-friendly PG backup (для VPS-деплоя)
+│   ├── restore.sh          # Restore from backup
+│   └── create-admin.ts     # CLI: создать/обновить админа
 ├── src/
-│   ├── middleware.ts         # Protects /admin/* routes
+│   ├── middleware.ts       # Protects /admin/* routes
 │   ├── app/
-│   │   ├── layout.tsx        # Root layout (fonts, metadata)
-│   │   ├── globals.css       # Tailwind + design tokens
-│   │   ├── sitemap.ts        # Dynamic multilingual sitemap
-│   │   ├── robots.ts         # robots.txt
-│   │   ├── [locale]/         # PUBLIC SITE — ru/uz/en routes
+│   │   ├── layout.tsx      # Root layout
+│   │   ├── globals.css
+│   │   ├── sitemap.ts
+│   │   ├── robots.ts
+│   │   ├── [locale]/       # PUBLIC SITE — ru/uz/en routes
 │   │   │   ├── layout.tsx
-│   │   │   ├── page.tsx      # Home
+│   │   │   ├── page.tsx
 │   │   │   ├── about/
 │   │   │   ├── administration/
 │   │   │   ├── teachers/
@@ -58,11 +82,9 @@ academic-lyceum-website/
 │   │   │   ├── news/
 │   │   │   ├── gallery/
 │   │   │   └── contacts/
-│   │   ├── admin/            # ADMIN PANEL — not localized
-│   │   │   ├── layout.tsx    # Sidebar + content shell
-│   │   │   ├── login/        # Login page + server action
-│   │   │   ├── dashboard/    # Stats overview
-│   │   │   ├── news/         # CRUD
+│   │   ├── admin/          # ADMIN PANEL
+│   │   │   ├── dashboard/
+│   │   │   ├── news/
 │   │   │   ├── teachers/
 │   │   │   ├── administration/
 │   │   │   ├── directions/
@@ -70,115 +92,64 @@ academic-lyceum-website/
 │   │   │   ├── gallery/
 │   │   │   ├── contacts/
 │   │   │   ├── about/
-│   │   │   ├── users/        # Manage admins
-│   │   │   └── settings/     # Profile + hero stats
+│   │   │   ├── users/
+│   │   │   ├── settings/
+│   │   │   └── login/
 │   │   └── api/
-│   │       ├── public/       # Public read APIs
-│   │       └── admin/        # Authenticated write APIs
+│   │       ├── public/     # Public read APIs
+│   │       ├── admin/      # Authenticated write APIs
+│   │       ├── health/     # Health check (для UptimeRobot)
+│   │       └── internal/   # One-off seed endpoints
 │   ├── components/
-│   │   ├── layout/           # Header, Footer, Logo, MobileMenu, LanguageSwitcher
-│   │   ├── admin/            # AdminShell, AdminPageHeader, AdminFormField, AdminDataTable, AdminStatCard
-│   │   └── ui/               # NewsCard, TeacherCard, DirectionCard, Lightbox, etc.
+│   │   ├── layout/         # Header, Footer, Logo, MobileMenu, LanguageSwitcher, NavLinks
+│   │   ├── admin/          # AdminShell, AdminPageHeader, AdminFormField, AdminDataTable
+│   │   ├── home/           # WhyChooseUsSection, PartnersSection, AboutHeroImage
+│   │   └── ui/             # NewsCard, TeacherCard, DirectionCard, AchievementCard, Lightbox, EntityGallery*
 │   ├── lib/
-│   │   ├── i18n/             # next-intl config (locales, routing)
-│   │   ├── db/               # Prisma singleton
-│   │   ├── cloudinary.ts     # Upload + URL builder
-│   │   └── utils/            # cn(), dates, text helpers
+│   │   ├── i18n/           # next-intl config (locales, routing)
+│   │   ├── db/             # Prisma singleton
+│   │   ├── vercel-blob-storage.ts  # Blob driver (active)
+│   │   ├── r2-storage.ts   # Cloudflare R2 driver (alternative)
+│   │   ├── cloudinary*.ts  # Cloudinary driver (alternative)
+│   │   ├── storage.ts      # Local /uploads/ driver (dev)
+│   │   ├── auth/           # bcrypt + JWT + session helpers
+│   │   └── utils/          # cn(), dates, text helpers
 │   ├── server/
-│   │   └── auth.ts           # bcrypt + JWT + session helpers
-│   └── services/             # Data access layer (one per entity)
+│   │   └── auth.ts         # Server-side auth
+│   └── services/           # Data access layer (one per entity)
+├── next.config.mjs         # Next config (image domains, etc)
+├── tailwind.config.ts      # Design tokens + brand colors
+├── tsconfig.json
+├── package.json
+└── vercel.json              # Vercel deployment config
 ```
 
 ---
 
-## 🚀 Quick start
+## 🚀 Local development (для разработчиков)
 
-### 1. Prerequisites
+### Prerequisites
 
-- Node.js ≥ 18.18
-- PostgreSQL ≥ 14 (local or hosted)
+- Node.js ≥ 18.18 (use `nvm install 20`)
+- PostgreSQL database (or use Prisma Postgres)
 
-### 2. Install
+### Setup
 
 ```bash
-git clone <repo-url> academic-lyceum-website
-cd academic-lyceum-website
+git clone https://github.com/amanovvh/altdiu.git
+cd altdiu
 npm install
+cp .env.example .env  # then fill in DATABASE_URL, BLOB_READ_WRITE_TOKEN
+npm run db:push       # apply Prisma schema
+npm run db:seed       # seed default content + first admin
+npm run dev           # http://localhost:3000
 ```
-
-### 3. Configure environment
-
-```bash
-cp .env.example .env
-```
-
-Fill in at minimum:
-
-```env
-DATABASE_URL=postgresql://USER:PASSWORD@localhost:5432/lyceum_db?schema=public
-ADMIN_DEFAULT_EMAIL=admin@lyceum.uz
-ADMIN_DEFAULT_PASSWORD=change_me_immediately
-ADMIN_DEFAULT_NAME=Site Administrator
-NEXTAUTH_SECRET=$(openssl rand -hex 32)
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=...
-CLOUDINARY_API_SECRET=...
-```
-
-### 4. Database
-
-```bash
-npm run db:generate
-npm run db:push
-npm run db:seed         # creates first admin + default content
-```
-
-### 5. Run
-
-```bash
-npm run dev
-```
-
-- **Public site:** http://localhost:3000 (auto-redirects to `/ru`)
-- **Admin panel:** http://localhost:3000/admin/login
-
-Log in with the credentials from `.env`.
-
----
-
-## 🔐 Admin Panel
-
-URL: **`/admin`**
-
-Features:
-
-- 📊 **Dashboard** — site stats and recent activity
-- 📰 **News** — full CRUD with multilingual content, publish/pin toggle
-- 👨‍🏫 **Teachers** — CRUD with category filtering, photo, education
-- 🏛 **Administration** — leadership CRUD
-- 📚 **Directions** — study programs CRUD with subjects
-- 🏆 **Achievements** — CRUD with category, date, photo
-- 🖼 **Gallery** — albums with photo upload (Cloudinary public_id)
-- 📞 **Contacts** — per-locale contact info + social links
-- 🏫 **About** — per-locale SiteContent blocks (history, mission, etc.)
-- 👥 **Users** — manage admin users (Super Admin only)
-- ⚙️ **Settings** — change own password + hero stats
-
-All actions are logged to `AdminAction` for audit.
-
-### Adding more admins
-
-```bash
-npm run admin:create -- --email editor@lyceum.uz --password "secret123" --name "Editor" --role EDITOR
-```
-
-Available roles: `SUPER_ADMIN`, `ADMIN`, `EDITOR`.
 
 ---
 
 ## 🎨 Design system
 
-The brand palette is derived from the official seal:
+Brand palette derived from the official seal:
 
 | Token | Hex | Usage |
 |-------|-----|-------|
@@ -200,25 +171,14 @@ Three locales: `ru` (default), `uz`, `en` via `next-intl`. URL always includes l
 
 ---
 
-## 💾 Backup
+## 💾 Backup & maintenance
 
-### One-off (CLI)
-
-```bash
-./scripts/backup.sh    # reads DATABASE_URL from .env
-```
-
-### Cron
-
-```
-0 3 * * * /opt/academic-lyceum-website/scripts/backup.sh
-```
-
-### Restore
-
-```bash
-./scripts/restore.sh /var/backups/lyceum/lyceum-2026-09-17.sql.gz
-```
+See **[MAINTENANCE.md](./MAINTENANCE.md)** for:
+- Database backup strategy (Prisma auto-backups + manual pg_dump)
+- npm dependency updates (yearly)
+- Next.js major version upgrades (every 2-3 years)
+- Domain renewal
+- What to do if Vercel/Prisma changes pricing
 
 ---
 
@@ -235,8 +195,6 @@ Three locales: `ru` (default), `uz`, `en` via `next-intl`. URL always includes l
 | `npm run db:seed` | Seed initial data + admin user |
 | `npm run db:studio` | Open Prisma Studio |
 | `npm run admin:create` | Create/update an admin user |
-| `npm run backup:create` | Run backup script |
-| `npm run backup:restore` | Run restore script |
 | `npm run typecheck` | TypeScript validation |
 | `npm run lint` | ESLint |
 
@@ -244,12 +202,16 @@ Three locales: `ru` (default), `uz`, `en` via `next-intl`. URL always includes l
 
 ## 🚢 Deployment
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for VPS / Docker / Vercel instructions.
+See **[DEPLOY.md](./DEPLOY.md)** for:
+- Current production stack (Vercel + Prisma + Blob)
+- Deploy from scratch
+- Alternative storage drivers
+- Migration to VPS
+
+See **[EMERGENCY.md](./EMERGENCY.md)** for rollback procedures.
 
 ---
 
 ## 📄 License
 
 © Academic Lyceum «International Finance». All rights reserved.
-
-
