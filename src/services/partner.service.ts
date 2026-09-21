@@ -6,6 +6,9 @@ export interface PartnerItem {
   logo: string | null;
   websiteUrl: string | null;
   category: string | null;
+  photos: string[];
+  documentUrl: string | null;
+  documentDescription: string | null;
   order: number;
   translations: {
     locale: Locale;
@@ -27,6 +30,9 @@ export async function getPartners(locale: Locale): Promise<PartnerItem[]> {
     logo: r.logo,
     websiteUrl: r.websiteUrl,
     category: r.category,
+    photos: r.photos,
+    documentUrl: r.documentUrl,
+    documentDescription: r.documentDescription,
     order: r.order,
     translations: r.translations.map((t) => ({
       locale: t.locale,

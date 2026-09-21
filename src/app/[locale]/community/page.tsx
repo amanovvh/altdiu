@@ -1,15 +1,13 @@
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { FileText, MapPin, Calendar } from 'lucide-react';
 import { isValidLocale, type Locale } from '@/lib/i18n/config';
 import { getPartners } from '@/services/partner.service';
-import { getPartnerDocuments } from '@/services/partner-document.service';
 import { getPartnershipEvents } from '@/services/partnership-event.service';
 import { getAllSiteContent } from '@/services/site-content.service';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { PartnersSection } from '@/components/home/PartnersSection';
 import { CldImage } from '@/components/ui/CldImage';
-import { Link } from '@/lib/i18n/routing';
+import { Calendar, MapPin } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,16 +20,13 @@ export default async function CommunityPage({
   if (!isValidLocale(locale)) notFound();
   const typedLocale = locale as Locale;
 
-  const [t, partners, documents, events, content] = await Promise.all([
+  const [t, partners, events, content] = await Promise.all([
     getTranslations({ locale, namespace: 'community' }),
     getPartners(typedLocale),
-    getPartnerDocuments(),
     getPartnershipEvents(),
     getAllSiteContent(typedLocale),
   ]);
 
-  // Optional editor-managed intro block (SiteContent key "community.intro").
-  // Falls back to a generic placeholder if not set.
   const introContent = content.find((c) => c.key === 'community.intro');
   const introHtml =
     introContent?.body?.trim() ||
@@ -39,7 +34,6 @@ export default async function CommunityPage({
 
   return (
     <>
-      {/* Hero / intro */}
       <section className="bg-gradient-soft py-16 md:py-20">
         <div className="container-tight">
           <SectionHeader
@@ -54,66 +48,12 @@ export default async function CommunityPage({
         </div>
       </section>
 
-      {/* Partners grid (existing) */}
+      {/* Partners grid (clickable → opens modal with photos + document) */}
       <PartnersSection partners={partners} variant="full" />
 
-      {/* Documents — договоры, соглашения, PDF */}
-      {documents.length > 0 && (
-        <section className="section bg-surface-alt">
-          <div className="container-wide">
-            <SectionHeader
-              eyebrow="Документы"
-              title="Договоры и соглашения о сотрудничестве"
-              align="center"
-              className="mb-10"
-            />
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {documents.map((doc) => (
-                <a
-                  key={doc.id}
-                  href={doc.fileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col rounded-2xl border border-ink-100 bg-white p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                >
-                  <div className="flex items-start gap-4">
-                    <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent-50 text-accent-700">
-                      <FileText className="h-6 w-6" strokeWidth={2} />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="line-clamp-2 font-semibold text-primary-800 group-hover:text-primary-900">
-                        {doc.title}
-                      </h3>
-                      {doc.description && (
-                        <p className="mt-2 line-clamp-3 text-sm text-ink-500">
-                          {doc.description}
-                        </p>
-                      )}
-                      <div className="mt-3 flex items-center gap-3 text-xs text-ink-500">
-                        <span className="inline-flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {new Intl.DateTimeFormat('ru-RU', {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric',
-                          }).format(doc.date)}
-                        </span>
-                        {doc.fileSize && (
-                          <span>· {(doc.fileSize / 1024).toFixed(0)} KB</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Events — дебаты, встречи, форумы с фото */}
+      {/* Events — дебаты, встречи, форумы */}
       {events.length > 0 && (
-        <section className="section bg-white">
+        <section className="section bg-surface-alt">
           <div className="container-wide">
             <SectionHeader
               eyebrow="Мероприятия"
@@ -127,7 +67,6 @@ export default async function CommunityPage({
                   key={event.id}
                   className="overflow-hidden rounded-3xl border border-ink-100 bg-white shadow-soft"
                 >
-                  {/* Cover */}
                   <div className="relative aspect-[21/9] overflow-hidden bg-surface-alt">
                     {event.coverImage ? (
                       <CldImage
@@ -164,8 +103,6 @@ export default async function CommunityPage({
                       </div>
                     </div>
                   </div>
-
-                  {/* Description */}
                   {event.description && (
                     <div className="px-6 py-5 md:px-8">
                       <p className="text-pretty text-base text-ink-700">
@@ -173,8 +110,6 @@ export default async function CommunityPage({
                       </p>
                     </div>
                   )}
-
-                  {/* Photos grid */}
                   {event.photos.length > 0 && (
                     <div className="grid grid-cols-2 gap-1 px-2 pb-2 md:grid-cols-4 md:gap-2 md:px-3 md:pb-3">
                       {event.photos.slice(0, 8).map((photo, i) => (
@@ -200,8 +135,7 @@ export default async function CommunityPage({
         </section>
       )}
 
-      {/* Empty state */}
-      {partners.length === 0 && documents.length === 0 && events.length === 0 && (
+      {partners.length === 0 && events.length === 0 && (
         <section className="section">
           <div className="container-tight text-center text-ink-500">
             Информация будет добавлена администрацией.

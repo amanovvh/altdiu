@@ -23,6 +23,13 @@ const CreateSchema = z.object({
   translations: z.array(TranslationSchema).min(1),
 });
 
+/** Parse newline-separated URLs from the gallery hidden input. */
+function parsePhotos(formData: FormData): string[] {
+  const raw = String(formData.get('photos') ?? '').trim();
+  if (!raw) return [];
+  return raw.split('\n').map((s) => s.trim()).filter(Boolean);
+}
+
 export interface FormState {
   error?: string;
 }
@@ -52,11 +59,18 @@ export async function createPartner(
   });
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Ошибка' };
 
+  const photos = parsePhotos(formData);
+  const documentUrl = String(formData.get('documentUrl') ?? '').trim() || null;
+  const documentDescription = String(formData.get('documentDescription') ?? '').trim() || null;
+
   const partner = await prisma.partner.create({
     data: {
       logo: parsed.data.logo || null,
       websiteUrl: parsed.data.websiteUrl || null,
       category: parsed.data.category || null,
+      photos,
+      documentUrl,
+      documentDescription,
       order: parsed.data.order,
       isActive: parsed.data.isActive,
       translations: { create: parsed.data.translations.map((t) => ({
@@ -98,6 +112,9 @@ export async function updatePartner(
     logo: parsed.data.logo || null,
     websiteUrl: parsed.data.websiteUrl || null,
     category: parsed.data.category || null,
+    photos: parsePhotos(formData),
+    documentUrl: String(formData.get('documentUrl') ?? '').trim() || null,
+    documentDescription: String(formData.get('documentDescription') ?? '').trim() || null,
     order: parsed.data.order,
     isActive: parsed.data.isActive,
   };

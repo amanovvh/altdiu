@@ -22,6 +22,9 @@ export default async function EditPartnerPage({
     logo: partner.logo,
     websiteUrl: partner.websiteUrl,
     category: partner.category,
+    photos: partner.photos,
+    documentUrl: partner.documentUrl,
+    documentDescription: partner.documentDescription,
     order: partner.order,
     isActive: partner.isActive,
     translations: partner.translations.map((t) => ({

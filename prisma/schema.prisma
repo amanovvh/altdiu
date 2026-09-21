@@ -52,14 +52,19 @@ model WhyChooseUsCardTranslation {
 // =====================================================
 
 model Partner {
-  id          String   @id @default(cuid())
-  logo        String?  // Cloudinary public_id
-  websiteUrl  String?
-  category    String?
-  order       Int      @default(0)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                  String   @id @default(cuid())
+  logo                String?  // Cloudinary public_id / Vercel Blob URL
+  websiteUrl          String?
+  category            String?
+  // Gallery photos shown when partner is opened in modal
+  photos              String[] // Vercel Blob URLs
+  // Document (e.g. scanned agreement) shown in the partner modal
+  documentUrl         String?  // Vercel Blob URL to image (jpg/png)
+  documentDescription String?  @db.Text // caption shown above the doc
+  order               Int      @default(0)
+  isActive            Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
   translations PartnerTranslation[]
 
   @@index([isActive, order])
@@ -74,25 +79,6 @@ model PartnerTranslation {
   description String?  @db.Text
 
   @@unique([partnerId, locale])
-}
-
-// =====================================================
-// PARTNERSHIP DOCUMENTS — agreements / contracts / PDFs
-// =====================================================
-
-model PartnerDocument {
-  id          String   @id @default(cuid())
-  title       String   // e.g. "Договор о сотрудничестве с ТГЭУ"
-  description String?  @db.Text
-  fileUrl     String   // URL to PDF (Vercel Blob)
-  fileSize    Int?     // bytes (для UI)
-  date        DateTime @default(now())
-  order       Int      @default(0)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([isActive, order, date])
 }
 
 // =====================================================
