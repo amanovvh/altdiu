@@ -1,4 +1,4 @@
-import { EntityGallery } from './EntityGallery';
+import { EntityGalleryCarousel } from './EntityGalleryCarousel';
 import { Trophy, Award, Medal, Activity, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { formatShortDate } from '@/lib/utils/dates';
@@ -50,7 +50,7 @@ export function AchievementCard({ achievement, locale, className }: AchievementC
       )}
     >
       {achievement.image || (achievement.images && achievement.images.length > 0) ? (
-        <EntityGallery
+        <EntityGalleryCarousel
           photo={achievement.image}
           images={achievement.images}
           alt={achievement.title}
