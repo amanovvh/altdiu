@@ -44,12 +44,14 @@ export default async function AboutPage({
   // previewKey = first section with real DB content (used for the hero
   // preview block). History is the natural default — fall back to it
   // when nothing is filled in yet, so the hero shows "История лицея".
-  const previewKey = (() => {
-    for (const key of allSections.map((s) => s.key)) {
-      if (byKey[key]?.body?.trim()) return key;
+  let previewKey: string = 'about.history';
+  for (const s of allSections) {
+    const body = byKey[s.key]?.body?.trim();
+    if (body) {
+      previewKey = s.key;
+      break;
     }
-    return 'about.history';
-  })();
+  }
   const sections = allSections.filter((s) => s.key !== previewKey);
 
   return (
