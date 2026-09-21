@@ -251,3 +251,5 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for VPS / Docker / Vercel instructions.
 ## 📄 License
 
 © Academic Lyceum «International Finance». All rights reserved.
+
+
