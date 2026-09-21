@@ -120,9 +120,11 @@ export function MobileMenu({ isOpen, onClose, locale }: Props) {
           <NavLinks onNavigate={onClose} />
         </nav>
 
-        {/* 3. Footer — Контакты CTA + language switcher, placed BELOW
-            the nav so they appear after the user has seen the menu. */}
-        <div className="shrink-0 space-y-3 border-t border-ink-100 bg-surface-alt/40 px-4 py-4">
+        {/* 3. Footer — language switcher above Контакты CTA, sitting flush
+            against the nav (no border / no extra surface tint) so they read
+            as the same vertical column. */}
+        <div className="shrink-0 space-y-2 bg-surface-alt/30 px-2 pb-3 pt-1">
+          <LanguageSwitcher currentLocale={locale} className="w-full" />
           <Link
             href="/contacts"
             onClick={onClose}
@@ -131,7 +133,6 @@ export function MobileMenu({ isOpen, onClose, locale }: Props) {
             {tNav('contacts')}
             <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
-          <LanguageSwitcher currentLocale={locale} className="w-full" />
         </div>
       </aside>
     </>
