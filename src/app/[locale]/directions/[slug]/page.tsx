@@ -66,7 +66,7 @@ export default async function DirectionDetailPage({
             <ArrowLeft className="h-4 w-4" />
             {tNav('directions')}
           </Link>
-          <span className="mt-6 inline-block text-xs font-semibold uppercase tracking-[0.18em] text-accent-400">
+          <span className="mt-6 block text-xs font-semibold uppercase tracking-[0.18em] text-accent-400">
             {direction.shortTitle ?? direction.title}
           </span>
           <h1 className="mt-3 max-w-3xl text-balance text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
