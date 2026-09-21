@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { buildCloudinaryUrl } from '@/lib/cloudinary-url';
 
@@ -52,6 +52,13 @@ type LightboxProps = ControlledProps | UncontrolledProps;
  * - Keyboard arrows (←/→) and Escape to close
  * - Touch swipe (left/right)
  *
+ * Performance:
+ * - Adjacent images (next/prev) are preloaded as soon as the lightbox opens
+ *   so navigation feels instant.
+ * - Current image is rendered with `fetchpriority="high"` + `decoding="async"`.
+ * - Smooth 200ms opacity crossfade on index change instead of a hard swap.
+ * - `loading="eager"` on the cover thumbnail so it paints immediately.
+ *
  * When open, body scroll is locked. Click on the backdrop closes the lightbox.
  *
  * No external libraries — pure React + Tailwind.
@@ -68,12 +75,19 @@ export function Lightbox(props: LightboxProps) {
   }, [props]);
 
   const [index, setIndex] = useState(initialIndex);
+  const [imgLoaded, setImgLoaded] = useState(true);
   const next = useCallback(
-    () => setIndex((i) => (i + 1) % images.length),
+    () => {
+      setImgLoaded(false);
+      setIndex((i) => (i + 1) % images.length);
+    },
     [images.length]
   );
   const prev = useCallback(
-    () => setIndex((i) => (i - 1 + images.length) % images.length),
+    () => {
+      setImgLoaded(false);
+      setIndex((i) => (i - 1 + images.length) % images.length);
+    },
     [images.length]
   );
 
@@ -81,6 +95,21 @@ export function Lightbox(props: LightboxProps) {
   useEffect(() => {
     if (open) setIndex(initialIndex);
   }, [open, initialIndex]);
+
+  // Preload adjacent images in the background so navigation feels instant.
+  // We preload the next + previous (wrap-around) and the current image.
+  useEffect(() => {
+    if (!open || images.length === 0) return;
+    const preload = (i: number) => {
+      const img = new window.Image();
+      img.src = buildCloudinaryUrl(images[i]?.src);
+    };
+    preload(index);
+    if (images.length > 1) {
+      preload((index + 1) % images.length);
+      preload((index - 1 + images.length) % images.length);
+    }
+  }, [open, index, images]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -140,6 +169,8 @@ export function Lightbox(props: LightboxProps) {
         <img
           src={currentUrl}
           alt={current.alt ?? coverAlt ?? ''}
+          loading="eager"
+          decoding="async"
           className="h-full w-full object-cover transition group-hover:scale-[1.02]"
         />
       )}
@@ -206,14 +237,27 @@ export function Lightbox(props: LightboxProps) {
             </>
           )}
 
-          {/* Image */}
+          {/* Image — crossfade on index change */}
           <figure className="relative flex h-full w-full items-center justify-center p-4 sm:p-12">
+            {!imgLoaded && (
+              <div className="absolute inset-0 z-10 flex items-center justify-center">
+                <Loader2 className="h-10 w-10 animate-spin text-white/60" />
+              </div>
+            )}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               key={current.src}
               src={currentUrl}
               alt={current.alt ?? ''}
-              className="max-h-full max-w-full object-contain select-none"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              onLoad={() => setImgLoaded(true)}
+              onError={() => setImgLoaded(true)}
+              className={cn(
+                'max-h-full max-w-full object-contain select-none transition-opacity duration-200',
+                imgLoaded ? 'opacity-100' : 'opacity-0'
+              )}
               draggable={false}
             />
           </figure>
