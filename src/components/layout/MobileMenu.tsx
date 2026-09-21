@@ -114,9 +114,15 @@ export function MobileMenu({ isOpen, onClose, locale }: Props) {
           <p className="relative mt-0.5 line-clamp-2 text-xs text-white/70">{tMeta('siteFullName')}</p>
         </div>
 
-        {/* 2. Action row — language switcher + Контакты CTA, lifted to
-            the top so users see them before scrolling through the nav. */}
-        <div className="shrink-0 space-y-3 border-b border-ink-100 bg-surface-alt/40 px-4 py-4">
+        {/* 2. Nav links — vertical stack with icons, big touch targets.
+            min-h-0 + flex-1 + overflow-y-auto lets it scroll if items don't fit. */}
+        <nav className="min-h-0 flex-1 overflow-y-auto bg-surface-alt/30 px-2 py-3">
+          <NavLinks onNavigate={onClose} />
+        </nav>
+
+        {/* 3. Footer — Контакты CTA + language switcher, placed BELOW
+            the nav so they appear after the user has seen the menu. */}
+        <div className="shrink-0 space-y-3 border-t border-ink-100 bg-surface-alt/40 px-4 py-4">
           <Link
             href="/contacts"
             onClick={onClose}
@@ -127,12 +133,6 @@ export function MobileMenu({ isOpen, onClose, locale }: Props) {
           </Link>
           <LanguageSwitcher currentLocale={locale} className="w-full" />
         </div>
-
-        {/* 3. Nav links — vertical stack with icons, big touch targets.
-            min-h-0 + flex-1 + overflow-y-auto lets it scroll if items don't fit. */}
-        <nav className="min-h-0 flex-1 overflow-y-auto bg-surface-alt/30 px-2 py-3">
-          <NavLinks onNavigate={onClose} />
-        </nav>
       </aside>
     </>
   );
