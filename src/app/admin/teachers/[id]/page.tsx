@@ -32,7 +32,7 @@ export default async function EditTeacherPage({
       education: tr.education ?? '',
       bio: tr.bio ?? '',
     })),
-  };
+  } as any;
 
   const action = updateTeacher.bind(null, id);
 

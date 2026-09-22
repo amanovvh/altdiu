@@ -136,6 +136,7 @@
       "mathematics": "Mathematics",
       "naturalSciences": "Natural sciences",
       "humanities": "Humanities",
+      "foreign": "Visiting Faculty",
       "other": "Other"
     },
     "placeholder": "List of teachers will be added"

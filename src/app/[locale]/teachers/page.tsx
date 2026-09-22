@@ -3,9 +3,9 @@ import { getTranslations } from 'next-intl/server';
 import { isValidLocale, type Locale } from '@/lib/i18n/config';
 import { getTeachers } from '@/services/teacher.service';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { TeacherCard } from '@/components/ui/TeacherCard';
 import { Placeholder } from '@/components/ui/Placeholder';
 import { TeachersFilter } from './TeachersFilter';
+import { TeachersListWithModal } from './TeacherListWithModal';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,6 +31,7 @@ export default async function TeachersPage({
     { value: 'MATHEMATICS', label: t('filter.mathematics') },
     { value: 'NATURAL_SCIENCES', label: t('filter.naturalSciences') },
     { value: 'HUMANITIES', label: t('filter.humanities') },
+    { value: 'FOREIGN', label: t('filter.foreign') },
     { value: 'OTHER', label: t('filter.other') },
   ];
 
@@ -66,10 +67,8 @@ export default async function TeachersPage({
           />
 
           {filtered.length > 0 ? (
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filtered.map((teacher) => (
-                <TeacherCard key={teacher.id} teacher={teacher} />
-              ))}
+            <div className="mt-10">
+              <TeachersListWithModal teachers={filtered} />
             </div>
           ) : (
             <div className="mt-10">

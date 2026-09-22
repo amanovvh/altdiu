@@ -7,6 +7,8 @@ export interface TeacherListItem {
   fullName: string;
   subject: string;
   position: string | null;
+  education: string | null;
+  bio: string | null;
   category: TeacherCategory;
   order: number;
 }
@@ -48,9 +50,9 @@ export async function getTeachers(
       subject: r.translations[0].subject,
       position: r.translations[0].position,
       education: r.translations[0].education,
+      bio: r.translations[0].bio,
       category: r.category,
       order: r.order,
-      ...(r.email ? { email: r.email } : {}),
     }));
 }
 
