@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
+import { Globe, ArrowRight } from 'lucide-react';
+import { Link } from '@/lib/i18n/routing';
 import { isValidLocale, type Locale } from '@/lib/i18n/config';
 import { getTeachers } from '@/services/teacher.service';
 import { SectionHeader } from '@/components/ui/SectionHeader';
@@ -31,9 +33,11 @@ export default async function TeachersPage({
     { value: 'MATHEMATICS', label: t('filter.mathematics') },
     { value: 'NATURAL_SCIENCES', label: t('filter.naturalSciences') },
     { value: 'HUMANITIES', label: t('filter.humanities') },
-    { value: 'FOREIGN', label: t('filter.foreign') },
     { value: 'OTHER', label: t('filter.other') },
   ];
+
+const foreignCount =
+    teachers.filter((t) => t.category === 'FOREIGN').length;
 
   const counts = teachers.reduce<Record<string, number>>((acc, teacher) => {
     acc[teacher.category] = (acc[teacher.category] ?? 0) + 1;
@@ -55,6 +59,35 @@ export default async function TeachersPage({
           />
         </div>
       </section>
+
+      {/* Visiting Faculty — standalone banner, NOT part of the filter row. */}
+        {selected === 'ALL' && (
+          <div className="mt-10 flex flex-col items-stretch overflow-hidden rounded-2xl border border-sky-200 bg-gradient-to-br from-sky-50 to-sky-100/60 p-5 shadow-soft md:flex-row md:items-center md:gap-4">
+            <div className="flex shrink-0 items-center gap-3 md:border-r md:border-sky-200 md:pr-5">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-600 text-white shadow-md">
+                <Globe className="h-6 w-6" />
+              </span>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+                  {t('filter.foreign')}
+                </p>
+                <p className="mt-0.5 text-lg font-bold text-sky-900">
+                  Visiting Faculty
+                </p>
+              </div>
+            </div>
+            <p className="mt-3 text-pretty text-sm text-ink-700 md:mt-0 md:flex-1">
+              Преподаватели из зарубежных университетов, приглашённые для обмена опытом и совместных программ.
+            </p>
+            <Link
+              href={'/teachers?category=foreign' as any}
+              className="mt-3 inline-flex shrink-0 items-center justify-center gap-1.5 self-start rounded-full bg-sky-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-sky-700 md:mt-0"
+            >
+              Показать {foreignCount} › 
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        )}
 
       <section className="section">
         <div className="container-tight">
