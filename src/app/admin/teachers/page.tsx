@@ -2,6 +2,7 @@ import { prisma } from '@/lib/db/prisma';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { AdminDataTable, type Column } from '@/components/admin/AdminDataTable';
 import { CldImage } from '@/components/ui/CldImage';
+import { Globe } from 'lucide-react';
 import { deleteTeacher, toggleTeacherActive } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -12,6 +13,7 @@ const CAT_LABELS: Record<string, string> = {
   MATHEMATICS: 'Математика',
   NATURAL_SCIENCES: 'Естественные науки',
   HUMANITIES: 'Гуманитарные науки',
+  FOREIGN: 'Иностранный',
   OTHER: 'Другое',
 };
 
@@ -55,7 +57,18 @@ export default async function TeachersListPage() {
             />
           </div>
           <div className="min-w-0">
-            <p className="truncate font-medium text-primary-800">{r.fullName}</p>
+            <div className="flex items-center gap-2">
+              <p className="truncate font-medium text-primary-800">{r.fullName}</p>
+              {r.category === 'FOREIGN' && (
+                <span
+                  className="inline-flex shrink-0 items-center gap-1 rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-sky-700"
+                  title="Иностранный преподаватель"
+                >
+                  <Globe className="h-3 w-3" />
+                  Иностранный
+                </span>
+              )}
+            </div>
             <p className="truncate text-xs text-ink-500">{r.subject}</p>
           </div>
         </div>
@@ -64,7 +77,17 @@ export default async function TeachersListPage() {
     {
       key: 'category',
       label: 'Категория',
-      render: (r) => <span className="chip">{CAT_LABELS[r.category]}</span>,
+      render: (r) => (
+        <span
+          className={
+            r.category === 'FOREIGN'
+              ? 'chip border-sky-200 bg-sky-50 text-sky-700'
+              : 'chip'
+          }
+        >
+          {CAT_LABELS[r.category]}
+        </span>
+      ),
     },
     {
       key: 'status',

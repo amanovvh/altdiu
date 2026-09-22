@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter, usePathname } from '@/lib/i18n/routing';
-import { X } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
 interface Category {
@@ -26,9 +25,6 @@ export function TeachersFilter({ categories, active }: Props) {
       router.push(`${pathname}?category=${value.toLowerCase()}` as any);
     }
   };
-
-  const clearFilter = () => router.push(pathname as any);
-  const hasActiveFilter = active !== 'ALL';
 
   return (
     <div className="no-scrollbar -mx-4 overflow-x-auto px-4">
@@ -56,28 +52,6 @@ export function TeachersFilter({ categories, active }: Props) {
               >
                 {cat.count}
               </span>
-              {/* X button — only on the active filter, for one-click reset */}
-              {isActive && (
-                <span
-                  role="button"
-                  tabIndex={0}
-                  aria-label="Сбросить фильтр"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    clearFilter();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      clearFilter();
-                    }
-                  }}
-                  className="ml-1 -mr-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white/25"
-                >
-                  <X className="h-3 w-3" />
-                </span>
-              )}
             </button>
           );
         })}
